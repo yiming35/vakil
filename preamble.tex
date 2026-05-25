@@ -1,0 +1,239 @@
+\usepackage{MinionPro} 
+\usepackage[margin=1.5in]{geometry}
+% \usepackage{tgtermes}
+% \usepackage{amssymb}
+% \usepackage{newtxmath}
+
+\usepackage{lettrine}
+\usepackage{mathrsfs}
+\usepackage{comment}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[normalem]{ulem}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{float, caption}
+\usepackage{enumerate}
+\usepackage{hyperref} 
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{quiver}
+\usepackage{anyfontsize}
+\usepackage{epigraph}
+\setlength\epigraphrule{0pt}
+
+\usepackage{etoolbox}
+
+% Make \section Large and bold, centered
+\patchcmd{\section}{\scshape}{\Large \scshape}{}{}
+% Changes the word "Contents" to "Table of Contents" and makes it Large
+\renewcommand{\contentsname}{\Large Contents}
+
+
+\makeatletter
+% Section: level 1, 0pt vertical space, 0pt indent, bold
+\renewcommand{\l@section}{\@tocline{1}{3pt}{0pt}{}{\normalfont }}
+
+% Subsection: level 2, 0pt vertical space, 2.5pc indent, normal font
+\renewcommand{\l@subsection}{\@tocline{2}{0pt}{2.5pc}{}{\normalfont}}
+\makeatother
+
+
+\usetikzlibrary{decorations.pathreplacing, calc}
+\tikzcdset{
+  diagrams={>={Straight Barb[scale=0.5]}}
+}
+
+\tikzset{
+  COSIMPLICIALaltstackar/.style={decorate, decoration={show path construction,
+    lineto code={
+      \path (\tikzinputsegmentfirst); \pgfgetlastxy{\xstart}{\ystart}
+      \path (\tikzinputsegmentlast); \pgfgetlastxy{\xend}{\yend}
+      \path ($(0,0)!3pt!(\ystart-\yend,\xend-\xstart)$); \pgfgetlastxy{\xperp}{\yperp}
+      \foreach \n[evaluate=\n as \k using .5*#1-\n+.5] in {1,...,#1}{
+        \ifodd\n{\draw[->, shorten <=2pt, shift={($\k*(\xperp,\yperp)$)}](\xstart,\ystart)--(\xend,\yend);}
+        \else{\draw[<-, shorten >=2pt, shift={($\k*(\xperp,\yperp)$)}](\xstart,\ystart)--(\xend,\yend);}\fi
+      }
+    }
+  }}, COSIMPLICIALaltstackar/.default={1}
+}
+
+
+\tikzset{
+  SIMPLICIALaltstackar/.style={decorate, decoration={show path construction,
+    lineto code={
+      \path (\tikzinputsegmentfirst); \pgfgetlastxy{\xstart}{\ystart}
+      \path (\tikzinputsegmentlast); \pgfgetlastxy{\xend}{\yend}
+      \path ($(0,0)!3pt!(\ystart-\yend,\xend-\xstart)$); \pgfgetlastxy{\xperp}{\yperp}
+      \foreach \n[evaluate=\n as \k using .5*#1-\n+.5] in {1,...,#1}{
+        \ifodd\n{\draw[<-, shorten >=2pt, shift={($\k*(\xperp,\yperp)$)}](\xstart,\ystart)--(\xend,\yend);}
+        \else{\draw[->, shorten <=2pt, shift={($\k*(\xperp,\yperp)$)}](\xstart,\ystart)--(\xend,\yend);}\fi
+      }
+    }
+  }}, SIMPLICIALaltstackar/.default={1}
+}
+
+
+\hypersetup{%
+  bookmarksnumbered=true,%
+  colorlinks=true,
+  allcolors= RoyalPurple
+}
+
+% 2. cleveref MUST be loaded after hyperref, but before \newtheorems
+\usepackage[capitalize,nameinlink]{cleveref} 
+
+\let\fullref\autoref
+\def\makeautorefname#1#2{\expandafter\def\csname#1autorefname\endcsname{#2}}
+\def\equationautorefname~#1\null{(#1)\null}
+\makeautorefname{footnote}{footnote}%
+\makeautorefname{item}{item}%
+\makeautorefname{figure}{Figure}%
+\makeautorefname{table}{Table}%
+\makeautorefname{part}{Part}%
+\makeautorefname{appendix}{Appendix}%
+\makeautorefname{chapter}{Chapter}%
+\makeautorefname{section}{Section}%
+\makeautorefname{subsection}{Section}%
+\makeautorefname{subsubsection}{Section}%
+\makeautorefname{theorem}{Theorem}%
+\makeautorefname{thm}{Theorem}%
+\makeautorefname{cor}{Corollary}%
+\makeautorefname{lem}{Lemma}%
+\makeautorefname{prop}{Proposition}%
+\makeautorefname{pro}{Property}
+\makeautorefname{conj}{Conjecture}%
+\makeautorefname{defn}{Definition}%
+\makeautorefname{notn}{Notation}
+\makeautorefname{notns}{Notations}
+\makeautorefname{rem}{Remark}%
+\makeautorefname{quest}{Question}%
+\makeautorefname{exmp}{Example}%
+\makeautorefname{ax}{Axiom}%
+\makeautorefname{claim}{Claim}%
+\makeautorefname{ass}{Assumption}%
+\makeautorefname{asss}{Assumptions}%
+\makeautorefname{con}{Construction}%
+\makeautorefname{warn}{Warning}%
+\makeautorefname{obs}{Observation}%
+\makeautorefname{conv}{Convention}%
+
+% 3. Defining environments with standard shared counter syntax [thm] 
+% This natively handles what the \makeatletter hack was trying to do.
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem*{exer}{Exercise}
+\newtheorem{conj}[thm]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{ass}[thm]{Assumption}
+\newtheorem{asss}[thm]{Assumptions}
+\newtheorem{ax}[thm]{Axiom}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{pro}[thm]{Property}
+\newtheorem{quest}[thm]{Question}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+\newtheorem{obs}[thm]{Observation}
+\newtheorem{conv}[thm]{Convention}
+\newtheorem{claim}[thm]{Claim}
+
+\newenvironment{soln}{\begin{proof}[Solution]}{\end{proof}}
+
+% Reset equations to number by section
+\numberwithin{equation}{section}
+
+% ===== Math Operators =====
+\DeclareMathOperator{\ex}{ex}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\epi}{epi}
+\DeclareMathOperator{\rec}{rec}
+\DeclareMathOperator{\csh}{csh}
+\DeclareMathOperator{\sect}{Sect}
+\DeclareMathOperator{\adj}{adj}
+\DeclareMathOperator{\vertices}{vert}
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\atan2}{atan2}
+\DeclareMathOperator{\arc}{arc}
+\DeclareMathOperator{\edge}{edge}
+\DeclareMathOperator{\tensor}{\otimes}
+\DeclareMathOperator{\tot}{Tot}
+\DeclareMathOperator{\dir}{dir}
+\DeclareMathOperator{\sweep}{sweep}
+\DeclareMathOperator{\comet}{Comet}
+\DeclareMathOperator{\nor}{nor}
+\DeclareMathOperator{\Map}{Map}
+\DeclareMathOperator{\Cyl}{Cyl}
+\DeclareMathOperator{\hofib}{hofib}
+\DeclareMathOperator{\colim}{colim}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\conf}{Conf}
+\DeclareMathOperator{\Inj}{Inj}
+\DeclareMathOperator{\Intr}{int}
+\DeclareMathOperator{\Vect}{Vect}
+\DeclareMathOperator{\proj}{proj}
+\DeclareMathOperator{\AW}{\mathcal{AW}}
+\DeclareMathOperator{\EZ}{\mathcal{EZ}}
+\DeclareMathOperator{\Sing}{Sing}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\Cobar}{\catname{Cobar}}
+\DeclareMathOperator{\Barr}{\catname{Bar}}
+\DeclareMathOperator{\der}{Der}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\gr}{gr}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Sym}{Sym}
+
+
+% ===== Custom Commands =====
+\newcommand{\after}{$\circ$}
+\newcommand{\N}{\mathbf{N}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\C}{\mathbf{C}}
+\newcommand{\RP}{\mathbf{R}P}
+\newcommand{\gp}{\mathrm{gp}}
+
+\newcommand{\CP}{\mathbf{C}P}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\lb}{\langle}
+\newcommand{\rb}{\rangle}
+\newcommand{\F}{\mathbf{F}}
+\newcommand{\HH}{\mathbf{H}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\pset}{\mathscr{P}}
+\newcommand{\catname}{\mathsf}
+\newcommand{\p}{^{\prime}}
+\newcommand{\pp}{^{\prime\prime}}
+\newcommand{\iso}{\cong}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dx}{\,dx}
+\newcommand{\dy}{\,dy}
+\newcommand{\dt}{\,dt}
+\newcommand{\dz}{\,dz}
+\newcommand{\dvol}{d\!\vol}
+\newcommand{\ceq}{\coloneqq}
+\newcommand{\tto}{\rightrightarrows}
+\newcommand{\nat}{\Rightarrow}
+\newcommand{\contains}{\supseteq}
+\newcommand{\onto}{\twoheadrightarrow}
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\bigtensor}{\bigotimes}
+\newcommand{\const}{\mathrm{const}}
+\newcommand{\CCobar}{\mathfrak{C}\catname{obar}}
+
+
+\renewcommand{\qedsymbol}{$\square$}
+\newcommand{\psh}[2]{\operatorname{PSh}(\mathcal{#1}, \mathcal{#2})}
+\makeatother
