@@ -93,3 +93,35 @@ In $\catname{Ring}$, the initial object is the integers, since $1$ mapping to $1
         \end{proof}
     \end{enumerate}
 \end{exer}
+
+\begin{exer}[1.2.G] Show that $\Z/10 \tensor \Z/12 \cong \Z/2$.
+    \begin{proof}
+        We define a map $\tilde{f}: \Z/10 \times \Z/12 \to \Z/2$ via $([a],[b]) \mapsto [ab]$. This is clearly bilinear. If $a=a'+10n$ and $b  = b'+12m$, so $[ab] = [a'b'+12ma'+10nb'+120nm] = [a'b']$ in $\Z/2$, so this map is well defined. By the universal property of tensor products, $f$ factors through the tensor product to yield a map $f: \Z/10 \tensor \Z/12\to \Z/2$ such that $[a]\tensor [b] \mapsto [ab]$.
+
+        Consider the map $g: \Z/2 \to \Z/10 \tensor \Z/12$ given by $[a] \mapsto [a]\tensor [1]$. This is again bilinear, and if $a = a' + 2n$, then $[a] \tensor [1] = [a'+2n]\tensor [1] = [a'] \tensor [1] + [12n-10n]\tensor [1] = [a'] \tensor [1] + [1]\tensor [12n] - [10n]\tensor [1] = [a']$, so this is well defined.
+
+        We moreover have $fg([a]) =  f([a]\tensor [1]) = [a]$ and $gf([a],[b]) = g([ab]) = [ab]\tensor [1] = [a]\tensor [b]$. Hence $f$ is an isomorphism. (Note that this argument works to show in general that $\Z/m \tensor \Z/n \cong \Z/\gcd(m,n))$.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[1.2.H] Show that $(-)\tensor_A N$ is a covariant functor $\catname{Mod}_A \to \catname{Mod}_A$, and that it is right exact.
+    \begin{proof}
+    Let $f: M\to M'$ be an $A$-module map. Then $(m,n) \to f(m)\tensor n$ is bilinear, so it yields a map $f_*: M\tensor N\to M'\tensor N$, which on generators is given by $m\tensor n\mapsto f(m)\tensor n$. This respects composition, thus making $(-)\tensor N$ into a functor.
+
+    Let $M\xrightarrow{f} M' \xrightarrow{g} M'' \xrightarrow{h} 0$ be exact. Tensoring, we get a complex 
+    \[M \tensor N \xrightarrow{f_*} M'\tensor N\xrightarrow{g_*} M''\tensor N \xrightarrow{h_*} 0,\]
+    which we need to check is exact.  We know by the first isomorphism theorem that $g$ induces an isomorphism $ M'/\im(f)\to M''$. 
+    \begin{claim}
+    Tensor products commute with quotients.
+    \begin{proof}
+        Let $P, Q, R$ be $A$-modules. Suppose $Q$ is a submodule of $P$. Consider the map $\tilde{f}: (P/Q)\times R\to (P\tensor R)/(Q\tensor R)$ given by $([p], r) \mapsto [p\tensor r]$. If $[p]= [p']$, then $[p\tensor r] - [p'\tensor r] = [p-p'\tensor r] = [q \tensor r] = 0$ so this map is well defined. One can also check bilinearity. Hence it extends to a map $f: (P/Q)\tensor R\to(P\tensor R)/(Q\tensor R)$.
+
+        We now define a map $\tilde{g}: P\times R\to (P/Q)\tensor R$ via $(p,r) \mapsto [p]\tensor r$. This is bilinear, hence yields a map $g': P\tensor R \to  (P/Q)\tensor R$, which further factors through the quotient by $Q\tensor R$, yielding a map $g: (P\tensor R)/(Q\tensor R)\to (P/Q)\tensor R$. And $f,g$ are mutually inverse, yielding the claim.
+    \end{proof}
+    \end{claim}
+    By the claim, $g_*$ induces an isomorphism (since functors send isos to isos)
+    \[M''\tensor N \leftarrow (M'/\im(f)) \tensor N \cong (M'\tensor N)/\im(f_*)\] 
+    so $\im(f_*) = \ker(g_*)$. And surjectivity of $g_*$ follows directly from surjectivity of $g$. 
+    \end{proof}
+
+\end{exer}
