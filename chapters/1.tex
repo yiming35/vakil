@@ -125,3 +125,11 @@ In $\catname{Ring}$, the initial object is the integers, since $1$ mapping to $1
     \end{proof}
 
 \end{exer}
+\begin{exer}
+The tensor product $(T,t)$ of two modules $M, N$ is unique up to unique isomorphism. (Here $t: M\times N \to T$ is the bilinear map given by the universal property.)
+\begin{proof}
+    Let $(T', t')$ be another pair satisfying the universal property. Then $t'$ must factor through $T$, i.e. there exists a unique map $f: T\to T'$ such that $f\circ t = t'$. Likewise, there exists a unique map $g: T' \to T$ such that $g\circ t' = t$. Plugging these two formulas into each other we get $f\circ g\circ t' =t'$ and $g\circ f \circ t = t$.
+
+    Now we use the universal property again. Since $t'$ is a bilinear map from $M\times N$ to $T'$, it must factor uniquely through $T'$. One such factoring is as above, $(f\circ g)\circ t' =t'$, but another factoring is $\id_{T'} \circ t'$, so by uniqueness, $f\circ g = \id_{T'}$. Likewise, $g\circ f = \id_{T}$, hence $f, g$ are inverses, and the unique isomorphisms between $T, T'$.
+\end{proof}
+\end{exer}
