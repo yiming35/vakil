@@ -659,9 +659,168 @@ Backward direction. By assumption, $\delta_\pi$ is an isomorphism, and it satisf
             We check, again, that given a natural transformation $\alpha: \Hom(A,-)\nat F$, $C \in \mathcal{C}$ and $f \in \Hom(A,C)$, that 
             \[\Psi(\Phi(\alpha))_C(f) = \Psi(\alpha_A(\id_A))_C(f) =  (Ff)(\alpha_A(\id(A)))\]
             which by naturality is equal to $\alpha_C(f)$. And on the other hand, given an element $X \in FA$, we have 
-            \[\Phi(\Psi(X)) = \Psi(X)_A(\id_A) = (F\id_A)(X) = \id{FA}(X) = X\]
+            \[\Phi(\Psi(X)) = \Psi(X)_A(\id_A) = (F\id_A)(X) = \id_{FA}(X) = X\]
             which completes the proof.
         \end{soln}
     \end{enumerate}
 
 \end{exer}
+
+\subsection{Limits and colimits}
+\begin{exer}[1.3.A] Show that if $\mathcal{I}$ has an initial object $e$, then the limit of any diagram $F: \mathcal{I}\to \mathcal{C}$ exists.
+    \begin{proof}
+    We claim that the limit is just given by $Fe$, with the structure maps $f_j: Fe \to Fj$ given by the image of the unique morphism $e \to j$ under $F$, say $g_j$. Then for a morphism $m: j\to k$ in $\mathcal{I}$, since $e$ is initial, we know that $m\circ g_j = g_k$, whence it follows that $Fm\circ f_j = Fm\circ Fg_j = F(m\circ Fg_j) = Fg_k = f_k$. 
+    
+    To see that $Fe$ is final with respect to this property, for any $W\in\mathcal{C}$ with maps $w_j: W\to A_j$ commuting with the relevant things, we immediately have a morphism $w_e: W\to Fe$, and by assumption $w_j = f_j\circ w_e$.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[1.3.B] Solve 1.2.S by identifying both $X_1\times_Y X_2$ and $Y\times_{(Y\times_Z Y)} (X_1\times_Z X_2)$ as the limit of the diagram 
+\begin{equation}\begin{tikzcd}[cramped]
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJYXzEiXSxbMCwyLCJYXzIiXSxbMSwxLCJZIl0sWzIsMSwiWiJdLFswLDJdLFsyLDNdLFsxLDJdXQ==
+	{X_1} && \\
+	& Y & Z \\
+	{X_2}
+	\arrow[from=1-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=3-1, to=2-2]
+\end{tikzcd}\end{equation}
+    \begin{proof}
+        First to see how this implies the result of 1.2.S, note that the long fiber product $Y\times_{(Y\times_Z Y)} (X_1\times_Z X_2)$ is the limit of the diagram 
+        \begin{equation}\begin{tikzcd}[cramped]
+        % https://q.uiver.app/#q=WzAsMyxbMSwwLCJYXzFcXHRpbWVzX1ogWF8yIl0sWzEsMSwiWVxcdGltZXNfWiBZIl0sWzAsMSwiWSJdLFswLDFdLFsyLDFdXQ==
+        & {X_1\times_Z X_2} \\
+        Y & {Y\times_Z Y}
+        \arrow[from=1-2, to=2-2]
+        \arrow[from=2-1, to=2-2]
+    \end{tikzcd}\end{equation}
+        so if we show that $X_1\times_Y X_2$ and this limit coincide, then the square 
+    \[\begin{tikzcd}[cramped]
+        % https://q.uiver.app/#q=WzAsNCxbMSwwLCJYXzFcXHRpbWVzX1ogWF8yIl0sWzEsMSwiWVxcdGltZXNfWiBZIl0sWzAsMSwiWSJdLFswLDAsIlhfMVxcdGltZXNfWSBYXzIiXSxbMCwxXSxbMiwxXSxbMywyXSxbMywwXV0=
+        {X_1\times_Y X_2} & {X_1\times_Z X_2} \\
+        Y & {Y\times_Z Y}
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-1, to=2-1]
+        \arrow[from=1-2, to=2-2]
+        \arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    must be Cartesian. Now onto the proof. It is clear that $X_1\times_YX_2$ is the limit of diagram (1.1): the structure maps to $X_i$ are given by the projections from the fiber product, and the structure maps to $Y$ and $Z$ are given by postcomposing with the provided maps $X_i\to Y$, $Y\to Z$. And by the universal property of fiber products, $X_1\times_YX_2$ is final w.r.t. this. 
+    
+    Now we show that $K:= Y\times_{(Y\times_Z Y)} (X_1\times_Z X_2)$ is also the limit of (1.1). Since it is a fiber product, it comes with a map to $X_1\times_Z X_2$, which is the data of maps $f_i: K \to X_i$ commuting with $X_i\to Z$, as well as a map $f_y: K \to Y$. The map $f_z: K\to Z$ is given by postcomposing with $Y\to Z$. By defintion of all these fiber products, $f_i, f_y, f_z$ must commute with each other. To see $K$ is final w.r.t. this property, suppose we have a maps $g_i$ from $W$ to $X_i, Y, Z$ which commute with the diagram (1.1). Taking the maps to $X_i$ and $Z$, we obtain a map $W\to X_1\times_Z X_2$ by the universal property of the fiber product. On the other hand, we are already given a map $W\to Y$. These fit into the following diagram:
+    \[\begin{tikzcd}[cramped]
+        % https://q.uiver.app/#q=WzAsOSxbMSwxLCJYXzFcXHRpbWVzX1ogWF8yIl0sWzIsMSwiWF8xIl0sWzMsMSwiWSJdLFsxLDMsIlkiXSxbMSwyLCJYXzEiXSxbNCw0LCJaIl0sWzIsMiwiWSJdLFszLDMsIllcXHRpbWVzX1pZIl0sWzAsMCwiVyJdLFsxLDJdLFswLDQsIiIsMCx7ImNvbG91ciI6WzI0MCw2MCw2MF19XSxbNCwzXSxbMyw1XSxbMiw1XSxbNiwzXSxbNiwyXSxbNiw3LCIiLDAseyJjb2xvdXIiOlsyNDAsNjAsNjBdLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbOCw2LCIiLDAseyJjdXJ2ZSI6LTR9XSxbOCwzLCIiLDAseyJjdXJ2ZSI6Mn1dLFs4LDIsIiIsMCx7ImN1cnZlIjotMn1dLFs3LDNdLFs3LDJdLFs4LDAsIiIsMCx7ImNvbG91ciI6WzI0MCw2MCw2MF0sInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFs0LDYsIiIsMCx7ImNvbG91ciI6WzI0MCw2MCw2MF19XSxbMCwxLCIiLDIseyJjb2xvdXIiOlsyNDAsNjAsNjBdfV0sWzEsNiwiIiwwLHsiY29sb3VyIjpbMjQwLDYwLDYwXX1dXQ==
+        W &&&& \\
+        & {X_1\times_Z X_2} & {X_2} & Y \\
+        & {X_1} & Y \\
+        & Y && {Y\times_ZY} \\
+        &&&& Z
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, dashed, from=1-1, to=2-2]
+        \arrow[curve={height=-12pt}, from=1-1, to=2-4]
+        \arrow[curve={height=-24pt}, from=1-1, to=3-3]
+        \arrow[curve={height=12pt}, from=1-1, to=4-2]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, from=2-2, to=2-3]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, from=2-2, to=3-2]
+        \arrow[from=2-3, to=2-4]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, from=2-3, to=3-3]
+        \arrow[from=2-4, to=5-5]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, from=3-2, to=3-3]
+        \arrow[from=3-2, to=4-2]
+        \arrow[from=3-3, to=2-4]
+        \arrow[from=3-3, to=4-2]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, dashed, from=3-3, to=4-4]
+        \arrow[from=4-2, to=5-5]
+        \arrow[from=4-4, to=2-4]
+        \arrow[from=4-4, to=4-2]
+    \end{tikzcd}\]
+    Where the arrows in blue yield an arrow from $W$ to $K$.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[1.3.C] In the category of sets, the limit of a diagram $F: \mathcal{I} \to A$ is given by 
+    \[L:= \{(a_i)_{i \in \mathcal{I}} \in \prod_{i\in I}A_i: F(m)(a_j) = a_k \text{ for all $m \in \Hom(j,k)$}\}\]
+    with the standard projection maps $\pi_i: L \to A_i$.
+    \begin{proof}
+        By definition of $L$, given $a= (a_i)_{i\in \mathcal{I}} \in L$ and $m: j\to k$, we have by definition of $L$ that $Fm(\pi_j(a)) = Fm(a_j) = a_k = \pi_k(a)$. Hence things commute. To show that $L$ is final, suppose we have a family of functions $g_i: W\to A_i$ commuting with things. Then we can define $g: W\to L$ given by $w \mapsto (g_i(w))_{i \in \mathcal{I}}$. Then $\pi_j(g(w)) = g_j(w)$ for $j \in \mathcal{I}$, completing the proof.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[1.3.D] Colimits.
+    \begin{enumerate}[(a)]
+        \item Interpret the statement $\Q = \colim (\frac{1}{n}\Z)$.
+        \begin{soln}
+            Consider the category of natural numbers $\N$ with morphisms given by divisibility, i.e. there is a morphism $a\to b$ if $a$ divides $b$. Consider the functor $F$ from $\N$ to abelian groups given by $n\mapsto \frac{1}{n}\Z$. Then if there is an arrow $n\to m$, i.e. $nk=m$ for some $k$, we define a homomorphism $\phi_{nm}: \frac{1}{n}\Z\to\frac{1}{m}\Z$ via $x/n\mapsto xk/m$. Thus $F$ is actually a functor, and we claim that $\Q$ is the colimit of this diagram.
+
+            To see this, note that we have maps $\iota_n: \frac{1}{n}\Z \to \Q$ given by inclusion. These commute with the morphisms in $\N$, again with $n,m,k$ as above we have $\iota_n(x/n) = x/n = xk/nk = xk/m =\iota_m(\phi_{nm}(x/n))$. Given another group $K$ with morphisms $g_n: \frac{1}{n}\Z \to K$ for all $n$ commuting with the divisibility maps, we can define a map $\phi: \Q\to K$ via $q=a/b \mapsto g_b(q)$. 
+            
+            This is well defined, since if $a/b = a'/b'$, then the following diagram commutes
+            \[
+            \begin{tikzcd}[cramped]
+                % https://q.uiver.app/#q=WzAsNSxbMCwwLCJcXGZyYWN7MX17Yn1cXFoiXSxbMCwxXSxbMCwyLCJcXGZyYWN7MX17Yid9XFxaIl0sWzEsMSwiXFxmcmFjezF9e2JiJ31cXFoiXSxbMywxLCJLIl0sWzAsMywiYS9iIFxcbWFwc3RvIGFiJy9iYiciXSxbMiwzLCJhJy9iJ1xcbWFwc3RvIGEnYi9iYiciLDJdLFszLDQsImdfe2JiJ30iLDJdLFswLDQsImdfYiIsMCx7ImN1cnZlIjotMn1dLFsyLDQsImdfe2InfSIsMix7ImN1cnZlIjoyfV1d
+                {\frac{1}{b}\Z} &&& \\
+                {} & {\frac{1}{bb'}\Z} && K \\
+                {\frac{1}{b'}\Z}
+                \arrow["{a/b \mapsto ab'/bb'}", from=1-1, to=2-2]
+                \arrow["{g_b}", curve={height=-12pt}, from=1-1, to=2-4]
+                \arrow["{g_{bb'}}"', from=2-2, to=2-4]
+                \arrow["{a'/b'\mapsto a'b/bb'}"', from=3-1, to=2-2]
+                \arrow["{g_{b'}}"', curve={height=12pt}, from=3-1, to=2-4]
+            \end{tikzcd}\]
+            implying that $\phi(a/b) = g_b(a/b) = g_{b'}(a'/b') = \phi(a'/b')$. And $\phi$ trivially commutes with the $\iota_n$ since we have $\phi(\iota_b(a/b)) = \phi(a/b) = g_b(a/b)$ by definition.
+        \end{soln}
+        \item Interpret the union of subsets of a given set as a colimit.
+        \begin{soln}
+            Let $A$ be a set and consider the category of subsets $2^A$ of $A$, with a morphism $X\to Y$ if $X\subset Y$. Let $\{A_i\}_{i \in I}$ be the collection of subsets we want to take the union of, interpreted as a subcategory of the category of subsets of $A$. Then we get a diagram from this subcategory to $2^A$ via inclusion, and we claim that $\cup A_i$ is the colimit of this diagram. The commutativity is obvious, if $A_j\subset A_k$, then $A_j \subset A_k \subset \cup A_i$ gives the same thing as $A_j \subset \cup A_i$. 
+            If we have another subset of $A$, say $K$ with maps from each $A_i$ commuting with inclusion, this means that $\cup A_i$ is a subset of $K$, automatically giving us the desired extension. Again all the morphisms commute since they are just inclusions.
+        \end{soln}
+    \end{enumerate}
+\end{exer}
+
+\begin{exer}[1.3.E] Let $\mathcal{I}$ be a filtered index category. Prove that any colimit $F: \mathcal{I} \to \catname{Set}$ exists, and is given by
+    \[K:= \big\{(a_i, i) \in \coprod_{i \in \mathcal{I}} A_i\big\} \big/\sim\]
+where the equivalence relation is 
+\[\text{
+            $(a_i, i)\sim (a_j, j)$ iff there are $f: A_i \to A_k$  and $g: A_j \to A_k$ in the diagram such that $f(a_i) = g(a_j)$.
+        }\]
+        and inclusions $\iota_i: A_i\to K$ are just the standard $a \mapsto (a, i)$.
+        \begin{proof}
+        First we need to show that $\sim$ is an equivalence relation. For reflexivity, we have an identity morhpism $A_i \to A_i$, so because $\mathcal{I}$ is filtered we have a set $A_j$ with a morphism $A_i\to A_j$, so $(a_i, i)\sim (a_i, i)$. Symmetry is obvious. For transitivity, suppose $(a_i, i) \sim (a_j, j)$, witnessed by some $A_{ij}$, and $(a_j, j) \sim (a_k, k)$, witnessed by some $A_{jk}$, as in the solid arrows in the diagram below:
+        \[\begin{tikzcd}[cramped]
+            % https://q.uiver.app/#q=WzAsOCxbMSwwLCJBX2oiXSxbMCwxLCJBX2kiXSxbMSwxLCJBX3tpan0iXSxbMywwLCJBX2oiXSxbMywxLCJBX3tqa30iXSxbNCwxLCJBX2siXSxbMiwyLCJBX2wiXSxbMiwzLCJBX2wnIl0sWzAsMl0sWzEsMl0sWzMsNF0sWzUsNF0sWzIsNiwiIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzQsNiwiIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzYsNywiIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoic3F1aWdnbHkifX19XV0=
+            & {A_j} && {A_j} & \\
+            {A_i} & {A_{ij}} && {A_{jk}} & {A_k} \\
+            && {A_l} \\
+            && {A_l'}
+            \arrow[from=1-2, to=2-2]
+            \arrow[from=1-4, to=2-4]
+            \arrow[from=2-1, to=2-2]
+            \arrow[dashed, from=2-2, to=3-3]
+            \arrow[dashed, from=2-4, to=3-3]
+            \arrow[from=2-5, to=2-4]
+            \arrow[squiggly, from=3-3, to=4-3]
+        \end{tikzcd}\]
+        Then the dotted arrows and zigzag arrows come from the fact that $\mathcal{I}$ is filtered, so the compositions $A_i \to A_l'$ and $A_k\to A_l'$ show that $(a_i, i) \sim (a_k, k)$. Hence $\sim$ is an equivalence relation.
+
+        Now we check that that $\iota_i$ commute with the morphisms in the diagram. Suppose $m: j\to k$ is a morphism in $\mathcal{I}$. We need to show that $(a, j) = \iota_j(a) = \iota_k \circ Fm(a) = (Fm(a), k)$ for all $a \in A_j$, which by the equivalence relation amounts to finding some $l \in \mathcal{I}$ and maps $f: A_j\to A_l$ and $g: A_k\to A_l$ such that $f(a) = g(Fm(a))$. Since $\mathcal{I}$ is filtered, there exists some $l'$ with maps $\phi_j: A_j \to A_{l'}$ and $\phi_k: A_k \to A_{l'}$. Now $\phi_{l'}$ and $\phi_k\circ Fm$ are two maps $A_j \to A_{l'}$, so again by filteredness there is some $A_l$ and a map $\phi: A_{l'}\to A_l$ such that $\phi \circ \phi_{l'} = \phi \circ \phi_k\circ Fm$. Then taking $f=\phi\circ \phi_{l'}$ and $g= \phi\circ \phi_k$ works. 
+
+        Finally for the universal property. Given another set $L$ with maps $\psi_i: A_i \to L$ commuting with the diagram, define $h: K\to L$ via $(a_i, i) \mapsto \psi_i(a_i)$. This commutes with the $\iota_i$ trivially, so we just need to check it is well-defined. Suppose $(a_i, i)\sim (a_j,j)$. Then there is some $k$ with maps $f: A_i \to A_k$ and $g: A_j\to A_k$ such that $f(a_i) = g(a_j)$. Since the $\psi_i$ commute with these maps, we get $\psi_i = \psi_k(f(a_i)) = \psi_k(g(a_j)) = \psi_j(a_j)$, completing the proof.
+        \end{proof}
+\end{exer}
+
+\begin{exer}[1.3.F]
+    Let $\mathcal{I}$ be a filtered index category, $F: \mathcal{I}\to \catname{Mod}_A$ a diagram. Define the set $K$ as in the previous exercise with the $M_i$. Addition in $K$ is defined as follows. Given $(m_i, i)$ and $(m_j, j)$, choose $l \in \mathcal{I}$ with arrows $u: i\to l$ and $v: j\to l$, and define $(m_i, i) + (m_j, j)$ to be $(Fu(m_i)+Fv(m_j), l)$. Show that $K$ is the colimit of $F$.
+    \begin{proof}
+        Let us show first that $K$ is an $A$-module. To see that addition is well-defined, we need to show it is independent of a few choices:
+        \begin{enumerate}
+            \item Tomorrow
+        \end{enumerate} 
+    \end{proof}
+\end{exer}
+
+\begin{exer}[1.3.G]
+    Suppose $S$ is a multiplicative subset of $A$. Interpret the statement $S^{-1}A = \colim \frac{1}{s}A$.
+    \begin{soln}
+    This is like 1.3.D.a. Regard $S$ as a category whose objects are $S$, with a morphism $s\to s'$ if there exists $t \in S$ such that $ts = s'$. Then our diagram will be the functor $s \mapsto \frac{1}{s}A$, which sends a morphism $s\to s'$ to the morphism $\phi_{ss'}: a/s \mapsto at /s'$. We claim that $S^{-1}A$ is the colimit of this.  
+
+    The maps $\iota_s: \frac{1}{s}A\to S^{-1}A$ are given by inclusion. These commute with the morphisms with $S$ since $\iota_s(a/s) = a/s =at/s' = \iota_{s'}(\phi_{ss'}(a/s))$. Given another $A$-module $K$ with morphisms $g_s: \frac{1}{s}A\to K$, we define a map $\phi: S^{-1}A\to K$ by $a/s \mapsto g_s(a/s)$. This is well defined by the same logic as 1.3.D.a and commutes with the $\iota_s$ since $\phi(\iota_s(a/s)) = g_s(a/s)$.
+    \end{soln}
+\end{exer}  
