@@ -809,12 +809,41 @@ where the equivalence relation is
 \begin{exer}[1.3.F]
     Let $\mathcal{I}$ be a filtered index category, $F: \mathcal{I}\to \catname{Mod}_A$ a diagram. Define the set $K$ as in the previous exercise with the $M_i$. Addition in $K$ is defined as follows. Given $(m_i, i)$ and $(m_j, j)$, choose $l \in \mathcal{I}$ with arrows $u: i\to l$ and $v: j\to l$, and define $(m_i, i) + (m_j, j)$ to be $(Fu(m_i)+Fv(m_j), l)$. Show that $K$ is the colimit of $F$.
     \begin{proof}
-        Let us show first that $K$ is an $A$-module. To see that addition is well-defined, we need to show it is independent of a few choices:
+        Let us show that $K$ is an $A$-module, upon which the previous exercise shows it is the colimit. To see that addition is well-defined, we need to show it is independent of a few choices:
         \begin{enumerate}
-            \item Tomorrow
+            \item Choice of representative for addition. Suppose $(m_i, i)\sim (m_{i'}, i')$ via maps $\alpha: i\to k$ and $\alpha': i' \to k$. Choose some $l'$ with $u': i' \to l'$ and $v': j\to l'$. Since $\mathcal{I}$ is filtered, there is some $m \in \mathcal{I}$ receiving maps from $l, l',k$, say $\phi_{lm}, \phi_{l'm}, \phi_{km}$. 
+            Now we can (co)equalize $F\phi_{lm}\circ Fv$ and $F\phi_{l'}m \circ Fv'$ via $F\alpha_1$. Then equalize $F(\alpha_1\circ F\phi_{lm}\circ u)$ and $F(\alpha_1\circ \phi_{km}\circ \alpha)$ via $F\alpha_2$. Finally, equalize $F(\alpha_2\circ\alpha_1\circ\phi_{km}\circ\alpha')$ and $F(\alpha_2\circ\alpha_1\circ\phi_{l'm}\circ u')$ via $\alpha_3$. Then the image of $Fu(m_i)+Fv(m_j)$ under $F(\alpha_3\circ\alpha_2\circ\alpha_1\circ \phi_{lm})$ is equal to the the image of $F\phi_{lm}(Fv(m_j)) + F(\phi_{km}(alpha))(m_i)$ under $F(\alpha_3\circ\alpha_2\circ\alpha_1)$, which is equal to the image of $F\phi_{l'm}(Fv'(m_j)) + F(\phi_{km}(alpha'))(m_i')$, which is equal to the image of $Fu'(m_i')+Fv'(m_j)$ under $F(\alpha_3\circ\alpha_2\circ\alpha_1\circ \phi_{l'm})$. This shows that $(Fu'(m_i')+Fv'(m_j), l) \sim (Fu(m_i)+Fv(m_j), l)$. This can be pictured using the diagram below, but beware because the two squares at the top do not necessarily commute:
+            \[\begin{tikzcd}[cramped]
+                % https://q.uiver.app/#q=WzAsMTQsWzAsMCwiTV9qIl0sWzIsMCwiTV9pIl0sWzQsMCwiTV97aSd9Il0sWzYsMCwiTV9qIl0sWzEsMSwiTV9sIl0sWzUsMSwiTV97bCd9Il0sWzMsMSwiTV9rIl0sWzMsMiwiTV9tIl0sWzMsMywiTV97bSd9ICJdLFszLDQsIk1fe20nJ30iXSxbMyw1LCJNX3ttJycnfSJdLFs0LDMsIlxcdGV4dHtlcXVhbGl6ZSB9IE1falxccmlnaHRyaWdodGFycm93cyBNX20iXSxbNCw0LCJcXHRleHR7ZXF1YWxpemUgfU1faVxccmlnaHRyaWdodGFycm93cyBNX3ttJ30iXSxbNCw1LCJcXHRleHR7ZXF1YWxpemUgfSBNX3tpJ31cXHJpZ2h0cmlnaHRhcnJvd3MgTV97bScnfSAiXSxbMCw0LCJGdiJdLFsxLDQsIkZ1IiwyXSxbMSw2LCJGXFxhbHBoYSJdLFsyLDYsIkZcXGFscGhhJyIsMl0sWzIsNSwiRnUnIl0sWzMsNSwiRnYnIiwyXSxbNCw3LCJGXFxwaGlfe2xtfSIsMl0sWzYsNywiRlxccGhpX3trbX0iLDJdLFs1LDcsIkZcXHBoaV97bCdtfSJdLFs3LDgsIkZcXGFscGhhXzEiLDJdLFs4LDksIkZcXGFscGhhXzIiLDJdLFs5LDEwLCJGXFxhbHBoYV8zIiwyXV0=
+                {M_j} && {M_i} && {M_{i'}} && {M_j} \\
+                & {M_l} && {M_k} && {M_{l'}} \\
+                &&& {M_m} \\
+                &&& {M_{m'} } & {\text{equalize } M_j\rightrightarrows M_m} \\
+                &&& {M_{m''}} & {\text{equalize }M_i\rightrightarrows M_{m'}} \\
+                &&& {M_{m'''}} & {\text{equalize } M_{i'}\rightrightarrows M_{m''} }
+                \arrow["Fv", from=1-1, to=2-2]
+                \arrow["Fu"', from=1-3, to=2-2]
+                \arrow["{F\alpha}", from=1-3, to=2-4]
+                \arrow["{F\alpha'}"', from=1-5, to=2-4]
+                \arrow["{Fu'}", from=1-5, to=2-6]
+                \arrow["{Fv'}"', from=1-7, to=2-6]
+                \arrow["{F\phi_{lm}}"', from=2-2, to=3-4]
+                \arrow["{F\phi_{km}}"', from=2-4, to=3-4]
+                \arrow["{F\phi_{l'm}}", from=2-6, to=3-4]
+                \arrow["{F\alpha_1}"', from=3-4, to=4-4]
+                \arrow["{F\alpha_2}"', from=4-4, to=5-4]
+                \arrow["{F\alpha_3}"', from=5-4, to=6-4]
+            \end{tikzcd}\]
+
+            \item Choice of $l$. Suppose we take some other $l' \in \mathcal{I}$ with arrows $u': i\to l'$ and $v': j\to l'$. Then there is some $m$ with arrows $w: l \to m$ and $w': l' \to m$. Equalize $w\circ u$ and $w'\circ u'$ via $\alpha_1: m\to m'$, then equalize $\alpha_1\circ m\circ v$ and $\alpha_1\circ m'\circ v'$ via $\alpha_2: m'\to m''$. Then $F(\alpha_2\circ \alpha_1 \circ w\circ u)(m_i) + F(\alpha_2\circ\alpha_1\circ w\circ v)(m_j)= F(\alpha_2\circ\alpha_1\circ w' \circ u')(m_{i}) +F(\alpha_2\circ\alpha_1\circ w'\circ v)(m_j)$, so the maps $F(\alpha_2\circ\alpha_1\circ w)$ and $F(\alpha_2\circ\alpha_1\circ w')$ give the equivalence between $Fu(m_i)+Fv(m_j)$ and $Fu'(m_i)+Fv'(m_j)$.
+            
+            \item Choice of $u$ and $v$. Suppose we have another morphism $u': i\to l$. We can equalize them via some map $\alpha: l\to k$. Then it follows that $F\alpha(Fu(m_i) + Fv(m_j)) = F\alpha(Fu'(m_i) + Fv(m_j))$.
         \end{enumerate} 
+        Finally we check well-definedness of scalar multiplication. Let $a \in A$ and $(m_i, i) \in K$. Define $a\cdot (m_i, i) := (a\cdot m_i, i)$. To see this is well-defined, take some other $(m_j, j) \sim (m_i, i)$, with morphisms $u,v$ as above. Then $Fu(a\cdot m_i)  = a\cdot Fu(m_i) = a\cdot Fv(m_j) = Fv(a\cdot m_j)$ by virtue of $Fu$ being a morphism of $A$-modules, so scalar multiplication is well-defined.
     \end{proof}
 \end{exer}
+
+
 
 \begin{exer}[1.3.G]
     Suppose $S$ is a multiplicative subset of $A$. Interpret the statement $S^{-1}A = \colim \frac{1}{s}A$.
@@ -824,3 +853,138 @@ where the equivalence relation is
     The maps $\iota_s: \frac{1}{s}A\to S^{-1}A$ are given by inclusion. These commute with the morphisms with $S$ since $\iota_s(a/s) = a/s =at/s' = \iota_{s'}(\phi_{ss'}(a/s))$. Given another $A$-module $K$ with morphisms $g_s: \frac{1}{s}A\to K$, we define a map $\phi: S^{-1}A\to K$ by $a/s \mapsto g_s(a/s)$. This is well defined by the same logic as 1.3.D.a and commutes with the $\iota_s$ since $\phi(\iota_s(a/s)) = g_s(a/s)$.
     \end{soln}
 \end{exer}  
+
+\begin{exer}[1.3.H] Let $F: \mathcal{I}\to \catname{Mod}_A$ be a diagram (write $M_i$ for $Fi$). Show that the colimit of $F$ is given by $K:= \oplus_{i \in \mathcal{I}} M_i$ modulo the relations $m_i - F(n)(m_i)$ for each arrow $n: i\to j$ in $\mathcal{I}$.
+    \begin{proof}
+    The inclusions $\iota_i: M_i\to K$ send $m_i$ to the element in the direct sum which is $m_i$ in index $i$ and zero everywhere else. Then they commute with the diagram by definition of $K$. Given a family of maps $g_i: M_i\to L$ for some other $A$-module $L$, commuting with the diagram, we can define a map $\phi: K\to L$ via $(m_i)_{i\in \mathcal{I}} \mapsto \sum_{i\in\mathcal{I}} g_i(m_i)$. This is well-defined since $\phi(\iota_i(m_i)) = g_i(m_i) = g_j(Fn(m_i)) = \phi(\iota_j(Fn(m_i)))$, and the same thing shows that it commutes with the families of maps $\iota_i$ and $g_i$.
+    \end{proof}
+\end{exer}
+
+\subsection{Adjoints}
+\begin{exer}[1.4.A] Write down the naturality square in the second argument for an adjoint pair $F: \mathcal{A}\rightleftarrows \mathcal{B}: G$ with natural transformation $\tau_{AB}: \Hom_{\mathcal{B}}(FA, B) \to \Hom_{\mathcal{A}}(A,GB)$.
+    \begin{soln}
+        For each $g: B\to B'$ in $\mathcal{B}$, we require that 
+        \begin{tikzcd}[cramped]
+            % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXEhvbV97XFxtYXRoY2Fse0F9fShGQSxCKSJdLFswLDEsIlxcSG9tX1xcbWF0aGNhbHtCfShBLEdCKSJdLFsxLDAsIlxcSG9tX1xcbWF0aGNhbHtBfShGQSwgQicpIl0sWzEsMSwiXFxIb21fXFxtYXRoY2Fse0J9KEEsR0InKSJdLFswLDEsIlxcdGF1X3tBQn0iLDJdLFswLDIsImdfKiJdLFsxLDMsIkdnXyoiLDJdLFsyLDMsIlxcdGF1X3tBQid9Il1d
+            {\Hom_{\mathcal{A}}(FA,B)} & {\Hom_\mathcal{A}(FA, B')} \\
+            {\Hom_\mathcal{B}(A,GB)} & {\Hom_\mathcal{B}(A,GB')}
+            \arrow["{g_*}", from=1-1, to=1-2]
+            \arrow["{\tau_{AB}}"', from=1-1, to=2-1]
+            \arrow["{\tau_{AB'}}", from=1-2, to=2-2]
+            \arrow["{Gg_*}"', from=2-1, to=2-2]
+        \end{tikzcd}
+        commutes. Here $g_*$ is postcomposition by $g$, and $Gg_*$ is postcomposition by $Gg$.
+    \end{soln}
+\end{exer}  
+
+\begin{exer}[1.4.B] Show that for an adjoint pair as above, the following properties are satisfied. 
+    \begin{enumerate}
+        \item For each $A$ there is a map $\eta: A\to GFA$ (called the unit) such that for any $g: FA\to B$, the corresponding $\tau_{AB}g: A\to GB$ is given by the composition $A\xrightarrow{\eta} GFA\xrightarrow{Gg} GB$.
+        \begin{proof}
+            Let $H$ be the functor $\Hom_\mathcal{A}(A, G(-)): \mathcal{B} \to \catname{Set}$. By the Yoneda lemma, natural transformations 
+            \[\tau_{A, -}: \Hom_{\mathcal{B}}(FA, -) \nat H\]
+            are in bijection with elements of $H(FA) = \Hom_\mathcal{A}(A, GFA)$. Call this bijection $\Psi$. We claim that $\Psi(\tau_{A,-})$ is the desired $\eta$. To see this, we know that under the inverse of this bijection, $\Psi(\tau_{A,-})$ maps to the function
+            \[\Hom_\mathcal{B}(FA, B) \to HB, \quad g \mapsto H(g)(\Psi(\tau_{A,B})) = Gg\circ \Psi(\tau_{A,B})\]
+            but because $\Psi$ is a bijection this function must coincide with $\tau_{A,B}$, so $\tau_{A,B} = Gg\circ \Psi(\tau_{A,B})$.
+        \end{proof}
+        \item For each $B$ there is a map $\epsilon: FG(B)\to B$ (called the counit) so that for each $f: A\to GB$, the corresponding $\tau^{-1}_{AB}(f): FA\to B$ is given by the composition $F(A) \xrightarrow{f} FGB \xrightarrow{\epsilon} B$.
+        \begin{proof}
+            Let $H$ be the functor $\Hom_{\mathcal{B}}(F(-),B): \mathcal{A}\to\catname{Set}$. By the contravariant Yoneda lemma, natural transformations 
+            \[\tau^{-1}_{-,B}: \Hom_{\mathcal{A}}(-, GB) \to H\]
+            are in bijection with elements of $H(GB) = \Hom_\mathcal{B}(FGB, B)$, call this bijection $\Psi$. Then $\Psi:\tau^{-1}_{AB}$ is the desired $\epsilon$. To see this, under the inverse of $\Psi$ we know that $\Psi(\tau^{-1}_{-,B})$ maps to the function
+            \[\Hom(A,GB)\to \Hom(FA, B), f \mapsto Hf(\Psi(\tau^{-1}_{A,B})) = \Psi(\tau^{-1}_{A,B})\circ Ff\] 
+            so $\tau^{-1}_{-,B}(f) = \Psi(\tau^{-1}_{A,B}) \circ Ff$.
+        \end{proof}
+    \end{enumerate}
+\end{exer}
+
+\begin{exer}[1.4.C]
+Let $M, N, P$ be $A$-modules. Describe a bijection between $\Hom(M\tensor_A N, P)$ and $\Hom(M, \Hom_A(N, P))$.
+\begin{soln}
+    Let us start with $\Phi_{M,P}: \Hom(M\tensor_A N, P) \to\Hom(M, \Hom_A(N, P))$. By the universal property of tensor products, the data of $f \in \Hom(M\tensor N, P)$ is equivalent to the data of a bilinear map $\tilde{f}: M\times N \to P$ satisfying $f(m\tensor n) = \tilde{f}(m, n)$. So define $\Phi_{M, P}(f)$ via $\Phi_{M,P}(f)(m) = \tilde{f}(m, -)$.
+    
+    In the other direction, define $\Psi_{M,P}: \Hom(M, \Hom_A(N, P))\to \Hom(M\tensor_A N, P)$ as follows. Given $g$ in the domain, $g(m)$ is an $A$-linear map $N\to P$, so $g(-)(-): M\times N\to P$ is bilinear. Hence it induces a map $M\tensor N\to P$ which we call $\Psi_{M,P}(g)$, satisfying $\Psi_{M,P}(g)(m\tensor n) = g(m)(n)$. 
+
+    To see these are mutually inverse, we check that 
+    \[\Psi_{M,P}(\Phi_{M,P}(f))(m\tensor n) = \Phi_{M,P}(f)(m)(n) = \tilde{f}(m,n) = f(m\tensor n).\]
+    \[\Phi_{M,P}(\Psi_{M,P}(g))(m)(n) = \widetilde{\Psi_{M,P}}(g)(m, n) = \Psi_{M,P}(g)(m\tensor n) = g(m)(n)\]
+    which completes the bijection.
+\end{soln}
+\end{exer}
+
+\begin{exer}[1.4.D] Show that $(-)\tensor N$ and $\Hom(N, -)$ are adjoint.
+    \begin{proof}
+    Let us stick to the notation above. We need to show that $\Phi$ is natural in $M$ and $P$. So let $\pi: M \to M'$ and $\tau: P \to P'$ be morphisms. In the first argument, we have the diagram
+    \[\begin{tikzcd}[cramped]
+        % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXEhvbShNJ1xcdGVuc29yIE4sIFApIl0sWzEsMCwiXFxIb20oTScsIFxcSG9tKE4sUCkpIl0sWzEsMSwiXFxIb20oTSwgXFxIb20oTixQKSkiXSxbMCwxLCJcXEhvbShNXFx0ZW5zb3IgTiwgUCkiXSxbMCwzLCJcXGNpcmNcXHBpIiwyXSxbMSwyLCJcXGNpcmNcXHBpIl0sWzAsMSwiXFxQaGlfe00nLFB9Il0sWzMsMiwiXFxQaGlfe00sUH0iLDJdXQ==
+        {\Hom(M'\tensor N, P)} & {\Hom(M', \Hom(N,P))} \\
+        {\Hom(M\tensor N, P)} & {\Hom(M, \Hom(N,P))}
+        \arrow["{\Phi_{M',P}}", from=1-1, to=1-2]
+        \arrow["{\pi^*}"', from=1-1, to=2-1]
+        \arrow["{\circ\pi}", from=1-2, to=2-2]
+        \arrow["{\Phi_{M,P}}"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    We verify for $f$ in the upper left corner that
+    \[\Phi_{M',P}(f)(\pi(m))(n) = \tilde{f}(\pi(m), n) = f(\pi(m)\tensor n)\]
+    and
+    \[\Phi_{M, P}(f \circ \pi_*)(m)(n) = \widetilde{f\circ \pi^*}(n, m) = f(\pi^*(n\tensor m)) = f(\pi(n)\tensor m).\]
+    For the other diagram: 
+    \[    
+    \begin{tikzcd}[cramped]
+         % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXEhvbShNXFx0ZW5zb3IgTiwgUCkiXSxbMSwxLCJcXEhvbShNLCBcXEhvbShOLFAnKSkiXSxbMCwxLCJcXEhvbShNXFx0ZW5zb3IgTiwgUCcpIl0sWzEsMCwiXFxIb20oTSwgXFxIb20oTiwgUCkpIl0sWzAsMiwiXFx0YXVcXGNpcmMgLSIsMl0sWzIsMSwiXFxQaGlfe00sUCd9Il0sWzAsMywiXFxQaGlfe00sUH0iXSxbMywxLCJcXHRhdV8qIiwyXV0=
+        {\Hom(M\tensor N, P)} & {\Hom(M, \Hom(N, P))} \\
+        {\Hom(M\tensor N, P')} & {\Hom(M, \Hom(N,P'))}
+        \arrow["{\Phi_{M,P}}", from=1-1, to=1-2]
+        \arrow["{\tau\circ -}"', from=1-1, to=2-1]
+        \arrow["{\tau_*}"', from=1-2, to=2-2]
+        \arrow["{\Phi_{M,P'}}", from=2-1, to=2-2]
+    \end{tikzcd}\]
+    Take $g$ in the upper left corner, and verify: 
+    \[\tau_*(\Phi_{M,P}(g))(m)(n) = \tau\circ \Phi_{M,P}(g)(m)(n) = \tau(g(m\tensor m))\]
+    and 
+    \[\Phi_{M, P'}(\tau\circ g)(m)(n) = \tau(g(m\tensor m))\]
+    which completes the proof.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[1.4.E] Let $\phi: B\to A$ be a morphism of rings. For an $A$-module $M$, we can regard it as a $B$-module $M_B$ via this morphism, which yields a functor $(-)_B: \catname{Mod}_A\to \catname{Mod}_B$. Show that this functor is right adjoint to $(-)\tensor_B A$.
+    \begin{proof}
+        Let us describe the bijection $\Phi: \Hom(N\tensor_BA, M) \to \Hom(N, M_B)$. Start with $f$ on the left. Define $\Psi(f)(n) := f(n\tensor 1_A)$. This is a valid $B$-module morphism, since $\Psi(f)(b\cdot n) = f(b\cdot n\tensor 1_A) = f(n\tensor \phi(b)) = \phi(b)\cdot f(n\tensor 1) = b\cdot f(n\tensor 1)$.
+
+        On the other hand, given $g$ on the right, first consider the map $\tilde{\Psi}(g): N\times A \to M$ given by $(n,a)\mapsto a\cdot g(n)$. This is $B$-bilinear since $\Psi(g)(b\cdot n, a) = a\cdot g(b\cdot n) = a \cdot \phi(b) \cdot g(n) = \phi(b)\cdot (a\cdot g(n)) = \phi(b)\cdot \Psi(g)(n,a)$, and in the second variable $\Psi(g)(n, \phi(b)a) = \phi(b)a \cdot g(n) = \phi(b)\cdot (a\cdot g(n))$. Hence $\tilde{\Psi}(g)$ factors through the tensor product to yield a map $\Psi(g): N\tensor A \to M$ with $\Psi(g)(n\tensor a) = \tilde{\Psi(g)}(n,a) =a\cdot g(n)$.
+
+        These are mutually inverse since 
+        \[\Phi(\Psi(g))(n) = \Psi(g)(n\tensor 1) = 1\cdot g(n) =g(n)\]
+        and 
+        \[\Psi(\Phi(f))(n\tensor a) = a\cdot \Phi(f)(n) = a\cdot f(n\tensor 1) = f(n\tensor a).\]
+
+        For naturality, let $\pi: N\to N'$ and $\tau: M\to M'$ be morphisms. The first square to check is   
+        \[\begin{tikzcd}[cramped]
+            % https://q.uiver.app/#q=WzAsNSxbMCwxLCJcXEhvbV9BKE5cXHRlbnNvcl9CQSwgTSkiXSxbMSwxLCJcXEhvbV9CKE4sTV9CKSJdLFswLDJdLFswLDAsIlxcSG9tX0EoTidcXHRlbnNvciBBLCBNKSJdLFsxLDAsIlxcSG9tX0IoTicsTV9CKSJdLFszLDAsIlxccGleKiIsMl0sWzQsMSwiXFxjaXJjIFxccGkiLDJdLFszLDQsIlxcUGhpX3tOJyxNfSJdLFswLDEsIlxcUGhpX3tOLE19IiwyXV0=
+            {\Hom_A(N'\tensor A, M)} & {\Hom_B(N',M_B)} \\
+            {\Hom_A(N\tensor_BA, M)} & {\Hom_B(N,M_B)} \\
+            {}
+            \arrow["{\Phi_{N',M}}", from=1-1, to=1-2]
+            \arrow["{\pi^*}"', from=1-1, to=2-1]
+            \arrow["{\circ \pi}"', from=1-2, to=2-2]
+            \arrow["{\Phi_{N,M}}"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        Choose $f$ in the top left, then we get 
+        \[\Phi_{N',M}(f)(\pi(n)) = f(\pi(n)\tensor 1)\]
+        \[\Phi_{N,M}(\pi^*(f))(n) = \pi^*f(n \tensor 1) = f(\pi(n)\tensor 1).\]
+        The other square is 
+        \[\begin{tikzcd}[cramped]
+            % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXEhvbV9BKE5cXHRlbnNvciBBLCBNKSJdLFswLDEsIlxcSG9tX0EoTlxcdGVuc29yIEEsIE0pIl0sWzEsMCwiXFxIb20oTixNX0IpIl0sWzEsMSwiXFxIb20oTixNJ19CKSJdLFswLDEsIlxcdGF1IFxcY2lyYyIsMl0sWzAsMiwiXFxQaGlfe04sTX0iXSxbMSwzLCJcXFBoaV97TixNJ30iLDJdLFsyLDMsIlxcdGF1XFxjaXJjIl1d
+            {\Hom_A(N\tensor A, M)} & {\Hom(N,M_B)} \\
+            {\Hom_A(N\tensor A', M)} & {\Hom(N,M'_B)}
+            \arrow["{\Phi_{N,M}}", from=1-1, to=1-2]
+            \arrow["{\tau \circ}"', from=1-1, to=2-1]
+            \arrow["{\tau\circ}", from=1-2, to=2-2]
+            \arrow["{\Phi_{N,M'}}"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        Choosing $g$ in the top left we get 
+        \[\tau\circ \Phi_{N,M}(g)(n) = \tau(g(n\tensor 1))\]
+        \[\Phi_{N,M'}(\tau\circ g) = \tau(g(n\tensor 1))\]
+        which proves the adjunction.
+    \end{proof}
+\end{exer}
