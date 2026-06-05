@@ -988,3 +988,334 @@ Let $M, N, P$ be $A$-modules. Describe a bijection between $\Hom(M\tensor_A N, P
         which proves the adjunction.
     \end{proof}
 \end{exer}
+
+\begin{exer}[1.4.F]
+    Show that if an abelian semigroup $S$ is already an abelian group then its groupification is the identity morphism $S \to S$.
+    \begin{proof}
+    Let $G$ be an abelian group and let $f: S\to G$ be a map of abelian semigroups. Then clearly $f\circ \id = f$, so $f$ factors through the identity map uniquely. It remains to check that $f$ is an abelian group homomorphism. We have 
+    \[f(0) = f(0+0) = f(0) + f(0)\]
+    so $f(0) = 0$ and 
+    \[f(0) = f(a-a) = f(a)+f(-a)\]
+    so $f(-a) = -f(a)$.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[1.4.G]
+    Construct the groupification functor $H$ from the category of nonempty abelian semigroups to the category of groups, and show it is left adjoint to the forgetful functor.
+    \begin{proof}
+    Define $H(S)$ to be the set $S\times S$ modulo the equivalence relation $(a,b)\sim (c,d)$ if there exists $e \in S$ such that $a+d+e = b+c+e$. Let's check this is an equivalence relation. Clearly $(a,b)\sim (a,b)$ since we can take $e$ to be any element. Symmetry is also obvious. For transitivity, suppose $a+d+e = b+c+e$ and $c+y+e' = d+x+e'$. Then adding both equations shows that $(a,b)\sim (x,y)$. The group operation is given by $(a,b)+(c,d) = (a+c,b+d)$. The identity is $(a,a)$ for any $a \in S$, and the inverse of $(a,b)$ is $(b,a)$, so $H(S)$ is indeed an abelian group. Define the map $\phi: S\to H(S)$ by $s \mapsto (s+s, s)$. This is an abelian semigroup morphism since $s+t \mapsto (s+t+s+t, s+t) = (s+s, s) +(t+t, t)$.
+
+    Now let $f: S\to G$ be a map of abelian semigroups. Define $\tilde{f}: H(S)\to G$ via $\tilde{f}(a,b) = f(a)-f(b)$. This is well-defined: suppose $a+d+e = b+c+e$. Then $\tilde{f}(c,d) =f(c)-f(d) = f(a)-f(b)+f(e)-f(e) = \tilde{f}(a,b)$. And $f$ we have $f(s) = \tilde{f}(\phi(s)) = \tilde{f}(s+s, s) = f(s+s)-f(s) = f(s)$. Suppose we have another map $g$ with $f = g\circ \phi$. Then $g$ and $\tilde{f}$ agree on elements of the form $(s+s,s)$. Since we can rewrite any $(s,t) \in H(S)$ as $(s+s, s)- (t+t, t)$, we get that $g(s,t) = g(s+s, s) - g(t+t,t) = g(\phi(s)) - g(\phi(t)) = \tilde{f}(s,t)$. Given a map $\pi: S\to S'$, we define $H(\pi): H(S) \to H(S')$ via $(s,t)\mapsto (\pi(s), \pi(t))$, making $H$ into a functor.
+
+    Now to show adjointness. Let $F$ be the forgetful functor and $G$ and abelian group. Consider the function $\Phi: \Hom(H(S), G)\to \Hom(S, FG)$ given by $\Phi(f)(s) = f(s+s, s)$. In the other direction define $\Psi: \Hom(S, FG)\to \Hom(H(S), G)$ by $\Psi(g)(a,b) = g(a)-g(b)$, which is well-defined by the same reason as above. We check that 
+    \[\Phi(\Psi(g))(s) = \Psi(g)(s+s, s) = g(s+s)-g(s) = g(s)\]
+    \[\Psi(\Phi(f))(a,b) = \Phi(f)(a)-\Phi(f)(b) = f(a+a, a)-f(b+b,b) = f(a,b).\]
+
+    Now for naturality, let $\pi: S\to S'$ be a map of abelian semigroups and $\tau: G\to G'$ an abelian group homomorphism. The first square to check is 
+    \[\begin{tikzcd}[cramped]
+        % https://q.uiver.app/#q=WzAsNCxbMCwxLCJcXEhvbShIKFMpLCBHKSJdLFswLDAsIlxcSG9tKEgoUycpLEcpIl0sWzEsMCwiXFxIb20oUycsRkcpIl0sWzEsMSwiXFxIb20oUyxGRykiXSxbMSwwLCItIFxcY2lyYyBIXFxwaSIsMl0sWzEsMiwiXFxQaGkiXSxbMiwzLCItXFxjaXJjIFxccGkiXSxbMCwzLCJcXFBoaSIsMl1d
+        {\Hom(H(S'),G)} & {\Hom(S',FG)} \\
+        {\Hom(H(S), G)} & {\Hom(S,FG)}
+        \arrow["\Phi", from=1-1, to=1-2]
+        \arrow["{- \circ H\pi}"', from=1-1, to=2-1]
+        \arrow["{-\circ \pi}", from=1-2, to=2-2]
+        \arrow["\Phi"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    where $\Phi(f)(\pi(s)) = f(\pi(s)+\pi(s), \pi(s))$ and $\Phi(f\circ H\pi)(s) = (f\circ H\pi)(s+s, s) = f(\pi(s)+\pi(s), \pi(s))$.
+    The second square to check is 
+    \[\begin{tikzcd}[cramped]
+        % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXEhvbShIKFMpLEcpIl0sWzAsMSwiXFxIb20oSChTKSxHJykiXSxbMSwwLCJcXEhvbShTLEZHKSJdLFsxLDEsIlxcSG9tKFMsRkcnKSJdLFswLDIsIlxcUGhpIl0sWzIsMywiRlxcdGF1XFxjaXJjIC0iXSxbMCwxLCJcXHRhdVxcY2lyYyAtIiwyXSxbMSwzLCJcXFBoaSIsMl1d
+        {\Hom(H(S),G)} & {\Hom(S,FG)} \\
+        {\Hom(H(S),G')} & {\Hom(S,FG')}
+        \arrow["\Phi", from=1-1, to=1-2]
+        \arrow["{\tau\circ -}"', from=1-1, to=2-1]
+        \arrow["{F\tau\circ -}", from=1-2, to=2-2]
+        \arrow["\Phi"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    where $F\tau(\Phi(g))(s) = \tau(g(s+s,s))$ and $\Phi(\tau\circ g)(s) = \tau(g(s+s,s))$, completing the proof.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[1.4.H] Let $S$ be a multiplicative subset of $A$. Show that $S^{-1}(-): \catname{Mod}_A\to \catname{Mod}_{S^{-1}A}$ is left adjoint to the forgetful functor $F: \catname{Mod}_{S^{-1}A} \to \catname{Mod}_A$.
+    \begin{proof}
+        Let us first construct the bijection for $M \in \Mod_A$ and $N \in \Mod_{S^{-1}A}$
+        \[\Phi: \Hom_{\Mod_{S^{-1}A}}(S^{-1}M, N) \to \Hom_{\Mod_A}(M,FN).\]
+        by sending $f$ on the left to $\Phi(f)(m):= f(m/1)$. In the other direction send $g$ on the right to $\Psi(g)(n/s) = g(n)/s$. These are clearly compatible with the module actions. Then 
+        \[\Phi(\Psi(g))(m) = \Psi(g)(m/1) = g(m)/1=g(m) \]
+        \[\Psi(\Phi(f))(n/s) = \Phi(f)(n)/s = f(n/1)/s = f(n/s).\]
+        Let's check the squares! For morphisms $\pi: M\to M'$ and $\tau: N\to N'$, we have 
+        \[
+        \begin{tikzcd}[cramped]
+            % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXEhvbV97XFxNb2Rfe1Neey0xfUF9fShTXnstMX1NJywgTikiXSxbMSwwLCJcXEhvbV97XFxNb2RfQX0oTScsIEZOKSJdLFsxLDEsIlxcSG9tX3tcXE1vZF9BfShNLCBGTikiXSxbMCwxLCJcXEhvbV97XFxNb2Rfe1Neey0xfUF9fShTXnstMX1NLCBOKSJdLFswLDEsIlxcUGhpIl0sWzMsMiwiXFxQaGkiLDJdLFsxLDIsIi1cXGNpcmMgXFxwaSJdLFswLDMsIi0gXFxjaXJjIFNeey0xfVxccGkiLDJdXQ==
+            {\Hom_{\Mod_{S^{-1}A}}(S^{-1}M', N)} & {\Hom_{\Mod_A}(M', FN)} \\
+            {\Hom_{\Mod_{S^{-1}A}}(S^{-1}M, N)} & {\Hom_{\Mod_A}(M, FN)}
+            \arrow["\Phi", from=1-1, to=1-2]
+            \arrow["{- \circ S^{-1}\pi}"', from=1-1, to=2-1]
+            \arrow["{-\circ \pi}", from=1-2, to=2-2]
+            \arrow["\Phi"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        where $\Phi(f)(\pi(m)) = f(\pi(m)/1)$ and $\Phi(f\circ S^{-1}\pi)(m) = \Phi(f)(S^{-1}\pi(m)) = f(\pi(m)/1)$. The other square is 
+        \[\begin{tikzcd}[cramped]
+            % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXEhvbV97XFxNb2Rfe1Neey0xfUF9fShTXnstMX1NLCBOKSJdLFsxLDAsIlxcSG9tX3tcXE1vZF9BfShNLCBGTikiXSxbMSwxLCJcXEhvbV97XFxNb2RfQX0oTSwgRk4nKSJdLFswLDEsIlxcSG9tX3tcXE1vZF97U157LTF9QX19KFNeey0xfU0sIE4nKSJdLFswLDEsIlxcUGhpIl0sWzMsMiwiXFxQaGkiLDJdLFsxLDIsIkZcXHRhdSBcXGNpcmMgLSJdLFswLDMsIlxcdGF1IFxcY2lyYyAtIiwyXV0=
+            {\Hom_{\Mod_{S^{-1}A}}(S^{-1}M, N)} & {\Hom_{\Mod_A}(M, FN)} \\
+            {\Hom_{\Mod_{S^{-1}A}}(S^{-1}M, N')} & {\Hom_{\Mod_A}(M, FN')}
+            \arrow["\Phi", from=1-1, to=1-2]
+            \arrow["{\tau \circ -}"', from=1-1, to=2-1]
+            \arrow["{F\tau \circ -}", from=1-2, to=2-2]
+            \arrow["\Phi"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        where $F\tau\circ \Phi(g)(m)= \tau(g(m/1))$ and $\Phi(\tau\circ g)(m) = \tau(g(m/1))$ which completes the proof.
+    \end{proof}
+\end{exer}
+
+\subsection{An introduction to abelian categories}
+\begin{exer}[1.5.H] Given a complex $A^\bullet$, describe exact sequences 
+    \[0\to \im f^i \to A^{i+1}\to \coker f^i\to 0\]
+    \[0 \to H^i(A) \to \coker f^{i-1}\to \im f^i \to 0\]
+    \begin{soln}
+        Let us first show that kernels are monomorphisms and cokernels are epimorphisms. Let $\phi: A\to B$ be a morphism, and let $u: \ker \phi \to A$, $v: B\to \coker \phi$. Suppose we have morphisms $f,g: K\to \ker\phi$ such that $u \circ f = u \circ g$. Then we have the following commutative diagram,
+        \[\begin{tikzcd}[cramped]
+            % https://q.uiver.app/#q=WzAsNSxbMSwxLCJcXGtlclxccGhpIl0sWzEsMiwiQSJdLFsyLDIsIkIiXSxbMiwxLCIwIl0sWzAsMCwiSyJdLFswLDNdLFswLDFdLFsxLDIsIlxccGhpIiwyXSxbMywyXSxbNCwwLCJnIiwyLHsib2Zmc2V0IjoxfV0sWzQsMCwiZiIsMCx7Im9mZnNldCI6LTF9XSxbNCwxLCJ1XFxjaXJjIGY9dVxcY2lyYyBnIiwyLHsiY3VydmUiOjJ9XSxbNCwzLCIiLDIseyJjdXJ2ZSI6LTJ9XV0=
+            K && \\
+            & {\ker\phi} & 0 \\
+            & A & B
+            \arrow["g"', shift right, from=1-1, to=2-2]
+            \arrow["f", shift left, from=1-1, to=2-2]
+            \arrow[curve={height=-12pt}, from=1-1, to=2-3]
+            \arrow["{u\circ f=u\circ g}"', curve={height=12pt}, from=1-1, to=3-2]
+            \arrow[from=2-2, to=2-3]
+            \arrow["u",from=2-2, to=3-2]
+            \arrow[from=2-3, to=3-3]
+            \arrow["\phi"', from=3-2, to=3-3]
+        \end{tikzcd}\] 
+        which implies $f=g$. Likewise, suppose we have morphisms $f', g': \coker \to L$ such that $f'\circ v = g'\circ v$. Then we get the following commutative diagram
+        \[\begin{tikzcd}[cramped]
+            % https://q.uiver.app/#q=WzAsNSxbMCwwLCJBIl0sWzAsMSwiQiJdLFsxLDAsIjAiXSxbMSwxLCJcXGNva2VyIFxccGhpIl0sWzIsMiwiTCJdLFsxLDMsInYiLDJdLFswLDEsIlxccGhpIiwyXSxbMCwyXSxbMiwzXSxbMyw0LCJnJyIsMCx7Im9mZnNldCI6LTF9XSxbMyw0LCJmJyIsMix7Im9mZnNldCI6MX1dLFsxLDQsImYnXFxjaXJjIHYgPWcnXFxjaXJjIHYiLDIseyJjdXJ2ZSI6Mn1dLFsyLDQsIiIsMix7ImN1cnZlIjotMn1dXQ==
+            A & 0 & \\
+            B & {\coker \phi} \\
+            && L
+            \arrow[from=1-1, to=1-2]
+            \arrow["\phi"', from=1-1, to=2-1]
+            \arrow[from=1-2, to=2-2]
+            \arrow[curve={height=-12pt}, from=1-2, to=3-3]
+            \arrow["v"', from=2-1, to=2-2]
+            \arrow["{f'\circ v =g'\circ v}"', curve={height=12pt}, from=2-1, to=3-3]
+            \arrow["{g'}", shift left, from=2-2, to=3-3]
+            \arrow["{f'}"', shift right, from=2-2, to=3-3]
+        \end{tikzcd}\]
+        which implies $f'=g'$.
+
+        Onto the problem. The first sequence can be written as 
+        \[0\to \ker(\coker f^i) \xrightarrow{\alpha} A^{i+1} \xrightarrow{\beta} \coker f^i \to 0.\]
+        By what we have just done, this is exact in the first and third entry. Because in abelian categories every monomorphism is the kernel of its cokernel, we have 
+        \[\im\alpha = \ker\coker \alpha = \alpha = \ker\coker f^i = \ker \beta\]
+        here we are switching back and forth between referring to the map in the (co)kernel and the objects involved. This shows exactness in the middle.
+
+        \textbf{For the next sequence}... epic fail when I tried to do it in an arbitrary abelian category, so let us just stick to Vakil's suggestion of working with modules for now. We can rewrite the sequence as 
+        \[0 \to \ker f^i/ \im f^{i-1}\xrightarrow{\alpha} A^i / \im f^{i-1} \xrightarrow{\beta} \im f^i \to 0.\]
+        Then we can define $\alpha$ to be the map induced by the composition $\ker f^i \to A^i\to A^i/\im f^i$, which obviously factors through $\im f^{i-1}$. This is injective, making the sequence exact in the first entry. For $\beta$, let it be the map induced by $f^i$, which factors through $\im f^{i-1}$ since $A$ is a complex. This is again surjective since it is just a quotient. We have $\beta(\alpha([x])) = f(x) = 0$ so $\im \alpha \subset \ker \beta$, and conversely if $\beta([y]) = 0$ then $y \in \ker f$ which completes the proof. 
+    \end{soln} 
+\end{exer}
+
+\begin{exer}[1.5.B] Let 
+    \[0\xrightarrow{d^0} A^1 \xrightarrow{d^1} \cdots \xrightarrow{d^{n-1}} A^n \xrightarrow{d^n} 0\]
+    be a cochain complex of finite dimensional vector spaces. Define $h^i(A) = \dim H^i(A)$. Show that $\sum (-1)^i \dim A^i = \sum (-1)^i h^i(A)$.
+    \begin{proof}
+        Let us begin with the right. We know 
+        \[h^i(A) = \dim H^i(A) = \dim (\ker d^i / \im d^{i-1}) = \dim \ker d^i - \dim \im d^{i-1}\]
+        so taking the alternating sum we have
+        \begin{align*}
+            \sum (-1)^i h^i(A) &= \sum (-1)^i (\dim \ker d^i - \dim \im d^{i-1}) \\
+            &= (\dim \ker d^0 - \dim \im d^{-1}) \\
+            &- \dim \ker d^1 + \dim \im d^0 \\
+            &+ \cdots \\
+            &+ (-1)^n (\dim \ker d^n - \dim \im d^{n-1})\end{align*}
+        but note that $\dim \ker d^n = \dim A^n$ and $\dim \im d^{-1} = 0$, so by rank-nullity this sum, after regrouping, is equal to $\sum(-1)^i \dim A^i$ as desired.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[1.5.C]
+Let $\mathcal{C}$ be an abelian category. Show that the category of complexes in $\mathcal{C}$, denoted $\Ch(\mathcal{C})$, is also abelian.
+\begin{proof}
+    Let us show the axioms one by one. 
+    \begin{enumerate}
+    \item[A1] \textit{Homsets are abelian groups}. Let $A, B \in \Ch(\mathcal{C})$. Then $\Hom_{\Ch(\mathcal{C})}(A, B)$ is the subgroup of $\prod_{n\in \Z} \Hom_{\mathcal{C}}(A^n, B^n)$ consisting of those morphisms that commute with the maps in $A$ and $B$. This distributes over addition by virtue of the individual morphisms distributing in each $A^n$ and $B^n$.
+    \item[A2] \textit{Zero object} The zero object is given by $\cdots \to 0 \to 0 \to 0 \to \cdots$, where $0$ is the zero object in $\mathcal{C}$.
+    \item[A3] \textit{Finite products.} Let $A, B \in \Ch(\mathcal{C})$. We claim that their product is given by the chain complex whose $n$th entry is $A^n\times B^n$, and differential defined as follows. Take $A^n\times B^n$ with the projections $\pi_{A^n}$ and $\pi_{B^n}$. Postcompose these with the differentials $A^n\to A^{n+1}$ and $B^n \to B^{n+1}$. This gives maps from $A^n\times B^n \to A^{n+1}$ and $A^n\times B^n \to B^{n+1}$, which by the universal property of products yields our map $d_{A\times B}^n: A^n\times B^n \to A^{n+1}\times B^{n+1}$. Then $d_{A\times B}^2 =0$ by commutativity of the following diagram:
+    \[\begin{tikzcd}[cramped]
+        % https://q.uiver.app/#q=WzAsOSxbMCwxLCJBXm5cXHRpbWVzIEJebiJdLFs0LDEsIkFee24rMn1cXHRpbWVzIEJee24rMn0iXSxbMiwxLCJBXntuKzF9XFx0aW1lcyBCXntuKzF9Il0sWzEsMiwiQl5uIl0sWzMsMiwiQl57bisxfSJdLFsxLDAsIkFebiJdLFszLDAsIkFee24rMX0iXSxbNSwwLCJBXntuKzJ9Il0sWzUsMiwiQl57bisyfSJdLFswLDVdLFswLDNdLFs1LDYsImRfQV5uIl0sWzIsNl0sWzMsNCwiZF9CXm4iLDJdLFsyLDRdLFswLDIsImRfe0FcXHRpbWUgc0J9Xm4iLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMiwxLCJkX3tBXFx0aW1lcyBCfV57bisxfSJdLFs2LDcsImRfQV57bisxfSJdLFs0LDgsImRfQl57bisxfSIsMl0sWzEsOF0sWzEsN11d
+        & {A^n} && {A^{n+1}} && {A^{n+2}} \\
+        {A^n\times B^n} && {A^{n+1}\times B^{n+1}} && {A^{n+2}\times B^{n+2}} \\
+        & {B^n} && {B^{n+1}} && {B^{n+2}}
+        \arrow["{d_A^n}", from=1-2, to=1-4]
+        \arrow["{d_A^{n+1}}", from=1-4, to=1-6]
+        \arrow[from=2-1, to=1-2]
+        \arrow["{d_{A\times B}^n}", dashed, from=2-1, to=2-3]
+        \arrow[from=2-1, to=3-2]
+        \arrow[from=2-3, to=1-4]
+        \arrow["{d_{A\times B}^{n+1}}", from=2-3, to=2-5]
+        \arrow[from=2-3, to=3-4]
+        \arrow[from=2-5, to=1-6]
+        \arrow[from=2-5, to=3-6]
+        \arrow["{d_B^n}"', from=3-2, to=3-4]
+        \arrow["{d_B^{n+1}}"', from=3-4, to=3-6]
+    \end{tikzcd}\]
+    To show this satisfies the universal property of the product, suppose we have maps $f:C\to A$ and $g: C\to B$ in $\Ch(\mathcal{C})$. Then by definition we get maps $f^n: C^n\to A^n$ and $g^n: C^n \to B^n$ which by the universal property of products in $\mathcal{C}$, we get a map $h^n: C^n \to A^n\times B^n$. Then the $h^n$ assemble into a map $C \to A\times B$ as desired.
+    \item[A4] \textit{Every map has a kernel and a cokernel.} Let $f^\bullet: A^\bullet \to B^\bullet$ be a map of complexes. We claim that its kernel is given by the complex $K^\bullet$ with $K^n = \ker f^n$ and levelwise maps $\iota^n: K^n\to A^n$. We first need to elaborate on what the differentials in $K$ are. Consider the following diagram:
+    \[ \begin{tikzcd}
+        % https://q.uiver.app/#q=WzAsNixbMCwxLCJBXm4iXSxbMCwyLCJCXm4iXSxbMSwyLCJCXntuKzF9Il0sWzEsMSwiQV57bisxfSJdLFswLDAsIlxca2VyIGZebiJdLFsxLDAsIlxca2VyIGZee24rMX0iXSxbMSwyLCJkX0JebiIsMl0sWzAsMywiZF5uX0EiLDJdLFs0LDAsIlxcaW90YV5uIiwyXSxbMCwxLCJmXm4iLDJdLFszLDIsImZee24rMX0iXSxbNCwzLCJkX0FeblxcY2lyYyBcXGlvdGFebiIsMl0sWzQsNSwiIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzUsMywiXFxpb3RhXntuKzF9Il1d
+        {\ker f^n} & {\ker f^{n+1}} \\
+        {A^n} & {A^{n+1}} \\
+        {B^n} & {B^{n+1}}
+        \arrow[dashed, from=1-1, to=1-2]
+        \arrow["{\iota^n}"', from=1-1, to=2-1]
+        \arrow["{d_A^n\circ \iota^n}"', from=1-1, to=2-2]
+        \arrow["{\iota^{n+1}}", from=1-2, to=2-2]
+        \arrow["{d^n_A}"', from=2-1, to=2-2]
+        \arrow["{f^n}"', from=2-1, to=3-1]
+        \arrow["{f^{n+1}}", from=2-2, to=3-2]
+        \arrow["{d_B^n}"', from=3-1, to=3-2]
+    \end{tikzcd}\]
+    Since the bottom square commutes, the diagonal map composed with $f^{n+1}$ is zero, so $d_A^n\circ \iota^n$ factors through $\iota^{n+1}$ to yield our map $d_K^n$ from $\ker f^n$ to $\ker f^{n+1}$. To see $d_K^2 = 0$, we can extend the diagram 
+    \[\begin{tikzcd}
+    % https://q.uiver.app/#q=WzAsNixbMCwxLCJBXm4iXSxbMSwxLCJBXntuKzF9Il0sWzAsMCwiXFxrZXIgZl5uIl0sWzEsMCwiXFxrZXIgZl57bisxfSJdLFsyLDAsIlxca2VyIGZee24rMn0iXSxbMiwxLCJBXntuKzF9Il0sWzAsMSwiZF5uX0EiLDJdLFsyLDAsIlxcaW90YV5uIiwyXSxbMiwxXSxbMiwzLCIiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMywxLCJcXGlvdGFee24rMX0iXSxbMyw0LCIiLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMSw1LCJkXntuKzF9X0EiLDJdLFs0LDUsIlxcaW90YV57bisyfSJdLFszLDVdXQ==
+	{\ker f^n} & {\ker f^{n+1}} & {\ker f^{n+2}} \\
+	{A^n} & {A^{n+1}} & {A^{n+1}}
+	\arrow[dashed, from=1-1, to=1-2]
+	\arrow["{\iota^n}"', from=1-1, to=2-1]
+	\arrow[from=1-1, to=2-2]
+	\arrow[dashed, from=1-2, to=1-3]
+	\arrow["{\iota^{n+1}}", from=1-2, to=2-2]
+	\arrow[from=1-2, to=2-3]
+	\arrow["{\iota^{n+2}}", from=1-3, to=2-3]
+	\arrow["{d^n_A}"', from=2-1, to=2-2]
+	\arrow["{d^{n+1}_A}"', from=2-2, to=2-3]
+    \end{tikzcd}\]
+    which tells us $\iota^{n+2} \circ d_K^2 = d_A^2\circ \iota^n = 0$, so because $\iota$ is a monomorphism we are done. Thus $K$ is a complex. Now we need to check that % https://q.uiver.app/#q=WzAsNCxbMCwwLCJLIl0sWzAsMSwiQSJdLFsxLDEsIkIiXSxbMSwwLCIwIl0sWzAsM10sWzMsMl0sWzAsMV0sWzEsMl1d
+    \begin{tikzcd}
+        K & 0 \\
+        A & B
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-1, to=2-1]
+        \arrow[from=1-2, to=2-2]
+        \arrow[from=2-1, to=2-2]
+    \end{tikzcd}
+    is a Cartesian square. It obviously commutes. Let $\pi: D\to A$ be a map of complexes whose composition with $f$ is zero. Then $f^n\circ \pi^n = 0$ for all $n$, so there is an induced map $\tilde{\pi}^n: D^n\to K^n$ for all $n$ such that $\iota^n \circ \tilde{\pi}^n = \pi^n$. It follows that $\iota \circ \tilde{\pi} = \pi$, so once we show that $\tilde{\pi}$ is a map of complexes are are done. Consider below:
+    \[\begin{tikzcd}
+        % https://q.uiver.app/#q=WzAsOSxbNCwxLCJLXntuKzF9Il0sWzQsMiwiQV57bisxfSJdLFs1LDIsIkJee24rMX0iXSxbNSwxLCIwIl0sWzMsMCwiRF5uIl0sWzAsMSwiRF5uIl0sWzAsMiwiS15uIl0sWzEsMSwiRF57bisxfSJdLFsxLDIsIktee24rMX0iXSxbMCwzXSxbMywyXSxbMCwxLCJcXGlvdGFee24rMX0iLDJdLFsxLDJdLFs0LDEsImRfQV5uXFxjaXJjIFxccGlebiIsMix7ImN1cnZlIjoyfV0sWzQsMywiIiwwLHsiY3VydmUiOi0yfV0sWzQsMCwiIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzUsNywiZF9EIl0sWzUsNiwiXFx0aWxkZXtcXHBpfV5uIiwyXSxbNiw4LCJkX0siXSxbNyw4LCJcXHRpbGRle1xccGl9XntuKzF9Il1d
+        &&& {D^n} && \\
+        {D^n} & {D^{n+1}} &&& {K^{n+1}} & 0 \\
+        {K^n} & {K^{n+1}} &&& {A^{n+1}} & {B^{n+1}}
+        \arrow[dashed, from=1-4, to=2-5]
+        \arrow[curve={height=-12pt}, from=1-4, to=2-6]
+        \arrow["{d_A^n\circ \pi^n}"', curve={height=12pt}, from=1-4, to=3-5]
+        \arrow["{d_D}", from=2-1, to=2-2]
+        \arrow["{\tilde{\pi}^n}"', from=2-1, to=3-1]
+        \arrow["{\tilde{\pi}^{n+1}}", from=2-2, to=3-2]
+        \arrow[from=2-5, to=2-6]
+        \arrow["{\iota^{n+1}}"', from=2-5, to=3-5]
+        \arrow[from=2-6, to=3-6]
+        \arrow["{d_K}", from=3-1, to=3-2]
+        \arrow[from=3-5, to=3-6]
+        \end{tikzcd}\]
+    To see that the guy on the left commutes, we will show that they make the pullback diagram on the right commute if we put them in place of the dotted arrow, whence by the universal property they are equal. We compute for the top-right path
+    \[\iota^{n+1} \circ \tilde{\pi}^{n+1}\circ d_D =  \pi^{n+1}\circ d_D^n = d_A^n\circ \pi^n\]
+    since $\pi$ is a map of complexes. And we compute for the bottom-left path 
+    \[\iota^{n+1}\circ d^n_K\circ \tilde{\pi}^n = d_A^n \circ \iota^n \circ \tilde{\pi}^n = d_A^n \circ \pi^n\]
+    as desired, using the fact that $\iota$ is a map of complexes. This completes the proof. The cokernel is exactly the same.
+    \item[A5] \textit{Every monomorphism is the kernel of its cokernel.} Let $f: A\to B$ be a monomorphism and $p: B\to \coker f$ its cokernel. Since $f$ is a monomorphism, its kernel is zero, so $\ker f^n = 0$, so each $f^n$ is a monomorphism. Now $\ker \coker f$ is the complex which is levelwise $\ker \coker f^n$, and because $\mathcal{C}$ is abelian, this is equal to $f^n$ since it is a monomorphism. Hence the kernel of the cokernel of $f$ is the complex which is levelwise $f^n$, so it is itself. 
+    \item[A6] \textit{Every epimorphism is the cokernel of its kernel.} By the exact same logic as above. If $g: A\to B$ is an epi, then each $g^n$ is an epi, so $\coker \ker g^n = g^n$, so $\coker \ker g =g$. 
+    \end{enumerate}
+    Whew!
+\end{proof}
+\end{exer}
+
+\begin{exer}[1.5.D] Show that a map of complexes $f: A^\bullet \to B^\bullet$ induces a map on cohomology $H^i(A)\to H^i(B)$.
+    \begin{proof}
+        Let us work with modules. First note that $f^i$ sends the kernel of $d^i_A$ to the kernel of $d_i(B)$, since $d_B^i(f_i(x)) = f^{i+1}d_A^i(x) = 0$. Moreover, $f^i\circ d_A^{i-1} = d_B^{i-1} \circ f^{i-1}$, so $f^i$ sends the image of $d_A^{i-1}$ to the image of $d_B^{i-1}$. Hence $f^i$ induces a map $H^i(A)\to H^i(B)$. 
+        
+        \textit{Side note: I tried to do this inside an arbitrary abelian category, but could not figure it out... One day I will return.}
+    \end{proof}
+\end{exer}
+
+\begin{exer}[1.5.E]
+    Show that two homotopic maps $f, g: C\to D$ induce the same maps on homology.
+    \begin{proof}
+        We work with modules again. Let $\omega: C^\bullet \to D^{\bullet-1}$ be the homotopy. Pick some $x \in \ker d_A^i$. We know that 
+        \[(f-g)(x) = d_D^{i-1}(\omega^i(x)) + \omega^{i+1}(d_A^i(x)) = d_D^{i-1}(\omega^i(x)).\]
+        That is, $f(x)$ and $g(x)$ differ by something in the image of $d_D^{i-1}$, so they are homologous. 
+    \end{proof}
+\end{exer}  
+
+\begin{exer}[1.5.F]
+    Show that applying an exact functor $F: \mathcal{C}\to \mathcal{D}$ to an exact sequence preserves exactness.
+    \begin{proof}
+        Let $A \xrightarrow{f} B \xrightarrow{g} C$ be exact. We will show that $F$ preserves kernels and images, from which it follows that $\im Ff = F \im f = F\ker g = \ker Fg$. 
+        
+        Let $f: A\to B$ be a morphism. Then by exactness of $F$ and the sequences 
+        \[0\to \ker f\to A \to B, \quad A\to B \to \coker f \to 0\]
+        we know that 
+        \[0\to F(\ker f)\to FA\to FB,\quad FA\to FB\to F(\coker f)\to 0\]
+        are also exact, so $F(\ker f)$ is a mono and $F(\coker f)$ is an epi. By exactness, we obtain 
+        \[\ker Ff = \im(F(\ker f)) = F\ker f\]
+        since the image of a mono is itself. And from the second sequence
+        \[\im Ff = \ker (F\coker f) = F (\ker\coker f) = F(\im f)\]
+        where in the middle equality we used what we just proved, that $F$ preserves kernels.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[1.5.G] Let $A$ be a ring, $S$ a multiplicative subset, and $M$ an $A$-module.
+    \begin{enumerate}[(a)]
+        \item Show that $S^{-1}(-): \Mod_A\to \Mod_{S^{-1}A}$ is an exact functor.
+        \begin{proof}
+            Let $N\xrightarrow{f}N'\xrightarrow{g} N''$ be exact. Since $S^{-1}(-)$ is a functor, it is immediate that $S^{-1}g\circ S^{-1}f = 0$, so $\im S^{-1}g \subset \ker S^{-1}f$. To show the other containment, let $a/b \in \ker S^{-1}g$, i.e. $S^{-1}g(a/b) = g(a)/b = 0$. Then there is some $t \in S$ such that $tg(a) = 0$, which gives $g(ta) = 0$, so $ta \in \ker g = \im f$, so let $y \in N$ such that $f(y) = ta$. Then $S^{-1}(y/tb) = ta/tb = a/b$, so $a/b \in \im S^{-1}g$, proving exactness.
+        \end{proof}
+        \item Show that $(-)\tensor M$ is right exact. 
+        \begin{proof}
+        This is Exercise 1.2.H.
+        \end{proof}
+        \item Show that $\Hom(M, -)$ is left exact. For $\mathcal{C}$ an abelian category and $C \in \mathcal{C}$ show that $\Hom(C,-)$ is a left exact functor $\mathcal{C} \to \catname{Ab}$.
+        \begin{proof}
+            The first part of this follows from the second part. Let $0\to X\xrightarrow{f}Y\xrightarrow{g} Z$ be exact. Let us first show that $f_*$ is a monomorphism. Let $H$ be an abelian group with morphisms $h_1, h_2: H\to \Hom(C,X)$ such that $(f_* \circ h_1)(h) = (f_* \circ h_2)(h)$ for all $h \in H$. But $f_*$ is just postcomposition by $f$, so $f\circ h_1(h) = f\circ h_2(h)$ implies $h_1(h) = h_2(h)$ since $f$ is a mono, so $f_*$ is a mono. 
+
+            Now for exactness at $\Hom(C,Y)$. Take $\phi \in \Hom(C,X)$. Then $g_*f_*(\phi) = g\circ f\circ \phi$. This is the zero homomorphism since $g\circ f = 0$, hence $\im f_*\subset \ker g_*$. Conversely, take some $\psi \in \ker g_*$, i.e. $g\circ \psi$ is the zero morphism. This implies that $\psi$ factors through $\ker g = \im f = f$ since $f$ is a mono. Hence there exists some $\psi'$ such that $f\circ \psi' = \psi$, so $\psi \in \im f_*$. 
+        \end{proof}
+        \item Likewise, show $\Hom(-,M)$ is left exact. For $\mathcal{C}$ an abelian category and $C \in \mathcal{C}$ show that $\Hom(-,C)$ is a left exact contravariant functor $\mathcal{C} \to \catname{Ab}$.
+        \begin{proof}
+            Let $X\xrightarrow{f}Y\xrightarrow{g} Z\to 0$ be exact. Let us first show that $g^*$ is a monomorphism. Again let $H$ be an abelian group and $h_1, h_2: H\to \Hom(Z,C)$ such that $(g^*\circ h_1)(h) = (g^*\circ h_2)(h)$ for all $h \in H$. This implies $h_1(h)\circ g = h_2(h)\circ g$, for all $h$, and because $g$ is an epi, we obtain $h_1=h_2$, so $g^*$ is a mono.
+            
+            For exactness in the midle, take $\phi \in \Hom(Z,C)$. Then $f^*(g^*(\phi)) = \phi \circ g\circ f = 0$, so $\im g^*\subset \ker f^*$. Conversely, let $\psi \in \ker f^*$. Then $\psi\circ f = 0$, so $\psi$ factors through $\coker f = \im g$ by exactness. It follows that there exists some $\tilde{\psi}: \im g\to C$ such that $\psi = \tilde{\psi}\circ g$, so $\psi \in \im g^*$.  
+        \end{proof}
+    \end{enumerate}
+\end{exer}
+
+\begin{exer}[1.5.H]
+    Suppose $M$ is a finitely presented $A$-module, i.e. it fits in an exact sequence 
+    \[A^{\oplus q}\to A^{\oplus p}\to M\to 0.\] Use this and the left-exactness of $\Hom$ to describe an isomorphism 
+    \[S^{-1}\Hom_A(M,N) \to \Hom_{S^{-1}A}(S^{-1}M, S^{-1}N).\]
+    \begin{proof}
+        By the previous exercise, we know that
+        \[S^{-1}A^{\oplus q} \to S^{-1}A^{\oplus q} \to S^{-1}M \to 0\]
+        is also exact. Applying $\Hom(-,N)$ to both of these, we get exact sequences 
+        \[0\to \Hom(M, N)\to \Hom(A^{\oplus p}, N) \to \Hom(A^{\otimes q}, N)\]
+        \[0\to \Hom(S^{-1}M, S^{-1}N)\to \Hom(S^{-1}A^{\oplus p}, S^{-1}N) \to \Hom(S^{-1}A^{\otimes q},S^{-1} N).\]
+        We know that localization is exact,  commutes with direct sum, and maps out of a finite direct sum of modules correspond to a finite direct sum of maps, so the sequences become
+        \[0\to S^{-1}\Hom(M, N)\to S^{-1}\oplus_p \Hom(A,N)\to S^{-1}\oplus_q\Hom(A,N)\]
+        \[0\to \Hom(S^{-1}M, S^{-1}N)\to \oplus_p \Hom(S^{-1}A,S^{-1}N)\to \oplus_q \Hom(S^{-1}A,S^{-1}N)\]
+        Finally, for any ring $R$ and $R$-module $L$ we know $\Hom_R(R,L) \cong L$ naturally, so our exact sequences become 
+        \[0\to S^{-1}\Hom(M,N) \to (S^{-1}N)^{\oplus p}\to (S^{-1}M)^{\oplus q}\]
+        and 
+        \[0\to \Hom(S^{-1}M,S^{-1}N) \to (S^{-1}N)^{\oplus p}\to (S^{-1}M)^{\oplus q}\]
+        so these two things are the kernel of the same map, hence are isomorphic.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[1.5.I]
+    Let $F:\mathcal{A}\to\mathcal{B}$ be a functor of abelian categories, and let $C^\bullet$ be a complex in $\mathcal{A}$. 
+    \begin{enumerate}[(a)]
+        \item If $F$ is right exact, show that there is an induced map $FH^i(C)\to H^i(FC)$.
+        \item If $F$ is left exact, show that there is an induced map $FH^i(C)\leftarrow H^i(FC)$.
+        \item If $F$ is exact, show that the maps above are inverses, hence $FH \cong HF$.
+    \end{enumerate}
+
+\end{exer}
