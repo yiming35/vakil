@@ -1,0 +1,79 @@
+\newpage\section{Sheaves}
+\subsection{Motivating example: the sheaf of smooth functions}
+
+\begin{exer}[2.1.A]
+Show that $\mfm_p$ is the only maximal ideal of $\mco_p$.
+\begin{proof}
+    It suffices to show that any $f$ not in $\mfm_p$ is invertible. If $f \notin \mfm_p$, then $f$ is nonzero at $p$, so by smoothness there is some open subset $U$ around $p$ where $f$ is also nonzero, hence $1/f$ is a well-defined function on $U$. Then $(1/f, U)$ is an inverse to $f$ in $\mco_p$.
+\end{proof}
+\end{exer}
+
+\begin{exer}[2.1.B]
+    Let $X$ be a differentiable manifold, $p \in X$, $\mco_p$ and $\mfm_p$ as above. Prove that $\mfm_p/\mfm_p^2$ is naturally the cotangent space to $X$ at $p$.
+    \begin{proof}
+    
+    \end{proof}
+\end{exer}
+
+\subsection{Definition of sheaf and presheaf}
+\begin{exer}[2.2.A]
+    Given a topological space $X$, let $\catname{Open}(X)$ be the category of open sets where the morhpisms are inclusions. Show that the data of a presheaf is the data of a contravariant functor from $\catname{Open}(X)$ to the category of sets.
+    \begin{proof}
+    Let us start with a presheaf $\mathcal{F}$. We can define a functor $F: \catname{Open}(X) \to \catname{Set}$ by sending an open set $U$ to $\mathcal{F}(U)$, and an inclusion $U\subset V$ to the restriction map $\res_{V,U}: \mathcal{F}(V)\to \mathcal{F}(U)$. Then the functor respects composition since the restriction maps do, and the identity inclusion maps to the identity map.  Conversely, given a functor $F: \catname{Open}(X)^\mathrm{op}\to\catname{Set}$, we can define a presheaf $\mathcal{F}$ via $\mathcal{F}(U) = F(U)$. For an inclusion $i: U\to V$ we define $\res_{V,U}$ to be $F(i)$. Then the definition of a functor (identity, composition) give us the presheaf conditions.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[2.2.B]
+    Show that the following are presheaves on $\C$ with the standard topology, but not sheaves:
+    \begin{enumerate}[(a)]
+        \item Bounded functions.
+        \begin{proof}
+            Take an open cover of $\C$ by open balls $U_n = \{|z|<n\}$. Then the identity map is an element of each $\mathcal{F}(U_n)$. But there is no bounded function that on $\C$ that these glue to.
+        \end{proof}
+        \item Holomorphic functions admitting a holomorphic square root.
+        \begin{proof}
+            Recall the argument principle: if $f$ is a meromorphic function inside and on a closed contour $C$, then $\int_C f'/f$ is some integer multiple (number of zeros minus number of poles) of $2\pi i$. Take $C$ to be the unit circle and let $f$ be the identity function. We claim that $f$ has no square root in the annulus $A= \{1-\epsilon < |z| < 1+\epsilon\}$ for some $0<\epsilon <1$. Suppose otherwise, i.e. there is some holomorphic $g$ defined on $A$ with $g^2 =f$. Then by the argument principle, we have 
+            \[2\pi i = \int_C \frac{f'(z)}{f(z)} dz = 2\int_C \frac{g'(z)}{g(z)} dz \in 4\pi i \Z\]
+            which is a contradiction. Thus $f(z)= z$ admits no holomorphic square root in $A$.But now we can cover the annulus $A$ with simply connected regions, on each of which we can define a holomorphic square root of $f$. So on each of these regions $f(z)= z$ restricts to the identity, so they agree on all intersections, but cannot patch together to a function which admits a holomorphic square root.
+        \end{proof}
+    \end{enumerate}
+\end{exer}
+
+\begin{exer}[2.2.C] The identity and gluability axioms for a sheaf may be interpreted as saying that $\mathcal{F}(\cup_{i} U_i)$ is a certain limit. What limit?
+    \begin{soln}
+        Let $\mathcal{F}$ be a sheaf over $X$ and let $U_i$ be an open cover of open $U \subset X$. This answer has to do with the ``equalizer exact sequence'' in the paragraph preceeding the exercise. 
+
+        Consider the diagram in $\catname{Set}$ whose objects are the $\mathcal{F}(U_i)$ as well as pairwise intersections $\mathcal{F}(U_i \cap U_j)$ for all $i,j$. We claim that $\mathcal{F}(U) = \mathcal{F}(\cup_i U_i)$ is the limit of this diagram, where the structure maps are induced by the inclusions in $\catname{Open}(X)$, which obviously commute. Let $G$ be another cone of this diagram with structure maps $\phi_i: G \to \mathcal{F}(U_i)$ and $\phi_{ij}: G\to F(U_i\cap U_j)$. Then for any $g \in G$, the images $\phi_i(g)$ are elements of each $\mathcal{F}(U_i)$ whose restrictions to each intersection agree, which by the glueabilty and identity axioms yields a global element in $\mathcal{F}(U)$, which yields our function $\phi: G\to \mathcal{F}(U)$. The axioms further tell us that the restriction of $\phi(g)$ to each $U_i$ agree with the $\phi_i(g)$. This shows that $\mathcal{F}(U)$ is the limit.
+    \end{soln}
+\end{exer}
+
+\begin{exer}[2.2.D] Sheaf checking.
+\begin{enumerate}[(a)]
+    \item Verify that the following are sheaves: smooth functions, continuous functions, real-analytic, real-valued functions on a manifold $X$.
+    \begin{soln}
+        It is easy to see that these are presheaves: the restriction of any of these classes of functions to a smaller open set preserves their smoothness/continuity/analyticity/real-valuedness, and the rules of function composition and restriction yield functoriality. 
+
+        To see these satisfy the identity axiom, let $U$ be an open set in $X$, $\{U_i\}$ an open cover of it. Let $\mathcal{F}$ be the presheaf of any of the above over $X$. Suppose $f,g \in \mathcal{F}(U)$ restrict to the same function on all $U_i$. Then for any $x \in U$, it belongs to some $U_i$, whereby $f(x) = f|_{U_i}(x)=g|_{U_i}(x)=g(x)$. 
+
+        For the glueability axiom, again let $\{U_i\}$ be an open cover of $U$ and suppose we are given $f_i \in \mathcal{F}(U_i)$ that agree on the intersections. We wish to define a function $f$ on $U$ that restricts to each of the $f_i$. So for each $x \in U$, choose some $U_i$ which $x$ belongs to and define $f(x) = f_i(x)$. This is well-defined since the $f_i$ agree on intersections. And $f$ remains smooth/continuous/analytic/real-valued since these are local properties.
+    \end{soln}
+    \item Show that real-valued continous functions on a topological space $X$ form a sheaf.
+    \begin{proof}
+        Call this $\mathcal{F}$. Again, $\mathcal{F}$ is a presheaf by virtue of function composition and restriction: if $U\subset V$ and $f: V\to X$ is continuous, then so is $f|_U: U\to X$, since the preimage of an open set $A\subset X$ is just $f|_U^{-1}(A) = U\cap f^{-1}(A)$, which is open in the subspace topology. The same argument as above gives the identity axiom, and the glueability axiom comes from the pasting lemma (which says that the $f$ constructed in (a) is continuous).
+    \end{proof}
+\end{enumerate}
+\end{exer}
+
+\begin{exer}[2.2.E] Let $X$ be a topological space and let $S$ be a set. Let $\mathcal{F}(U)$ be the set of maps $U\to S$ that are locally constant, i.e. for any $p \in U$ there is an open neighborhood around $p$ where the map is constant. Show that $\mathcal{F}$ is a sheaf on $X$.
+    \begin{proof}
+        The restriction of a locally constant function is clearly locally constant, and the restriction of a restriction is just restriction, so $\mathcal{F}$ is a presheaf.
+
+        The identity axiom is the same as above. For the glueability axiom, given $f_i \in \mathcal{F}(U_i)$ and define the glued $f$ the same as above. Then for any $x \in U$, there is some $U_i$ containing $x$ and a neighborhood $V$ of $x$ contained in $U_i$ where $f_i|_V = f|_V$ is constant. 
+    \end{proof}
+\end{exer}
+
+\begin{exer}[2.2.F] Suppose $Y$ is a topological space. Show that continuous maps to $Y$ form a sheaf of sets on a space $X$. (This is a generalization of the previous exercises).
+    \begin{proof}
+   There is nothing new here, the proof is exactly the same.
+    \end{proof}
+\end{exer}
