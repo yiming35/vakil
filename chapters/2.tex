@@ -77,3 +77,50 @@ Show that $\mfm_p$ is the only maximal ideal of $\mco_p$.
    There is nothing new here, the proof is exactly the same.
     \end{proof}
 \end{exer}
+
+\begin{exer}[2.2.G] Fancier sheaves.
+\begin{enumerate}[(a)]
+    \item Show that the sections of a continuous map $\mu: Y\to X$ yield a sheaf on $X$.
+    \begin{proof}
+        For $U \subset X$ open we let $\mathcal{F}(U)$ be those maps $s: U\to Y$ for which $s \circ \mu = \id|_U$. Let us first show this is a presheaf on $\catname{Open}(X)$. To an inclusion $U\subset V$ we define the restriction map $\res_{V,U}(f) = f|_U$, which remains a section since $(f|_U \circ \mu)(x) = (f\circ \mu)(x) = x$. And restrictions of restrictions are restrictions, so we are done.
+        
+        For the identity axiom, again let $U$ be open in $X$ and $\{U_i\}$ an open cover of it. Suppose $f|_{U_i} = g|_{U_i}$ for all $i$. Then for any $x \in U$, it belongs to some $U_i$, upon which $f=g$ on all of $U$. For glueability, let $\{U_i\}$ be same as above and suppose we have sections $f_i \in \mathcal{F}(U_i)$ agreeing on intersections. Then define $f: U\to Y$ via the pasting lemma. Then $(f\circ \mu)(x) = (f_i\circ \mu)(x)$ for some $i$, showing that $f$ is a section.
+    \end{proof}
+    \item Suppose $(Y,+)$ is a topological group. Show that continuous maps $X\to Y$ form a sheaf of groups. 
+    \begin{proof}
+        The group structure on $\mathcal{F}(U)$ is given by letting $f+g$ be the map $x \mapsto f(x)+g(x)$. The identity is the map sending all elements of $X$ to $0 \in Y$, and the inverse of a map $f$ is the map $x\mapsto -f(x)$. For an inclusion $U\subset V$ again define $\res_{V,U}(f) = f|_U$, which remains continuous. This is a group homomorphism since $(f+g)|_U = f|_U +g|_U$. Restrictions of restrictions are restrictions, so this makes $\mathcal{F}$ into a presheaf of groups.
+        
+        The identity axiom is the same as above. For glueability, let $\{U_i\}$ be an open cover of open $U \subset X$ and choose $f_i$ in each $\mathcal{F}(U_i)$ agreeing on intersections. Define $f: U\to Y$ again via the pasting lemma.
+    \end{proof}
+\end{enumerate}
+\end{exer}
+
+\begin{exer}[2.2.H]
+    Let $\pi: X\to Y$ be a continuous map, and let $\mathcal{F}$ be a presheaf on $X$. Define a presheaf $\pi_*\mathcal{F}$ by $\pi_*\mathcal{F}(V) = \mathcal{F}(\pi^{-1}(V))$. Show this is a presheaf, and a sheaf if $\mathcal{F}$ is a sheaf.
+    \begin{proof}
+        Let us first show it is a presheaf. Given an inclusion $W\subset V$ of open sets of $Y$, we know $\pi^{-1}(W)\subset \pi^{-1}(V)$ are open in $X$, so we can define $\res_{W,V}(f) = \res_{\pi^{-1}(W), \pi^{-1}(V)}(f)$, upon which composition and identity follow from the fact that $\mathcal{F}$ is a presheaf.  
+
+        Now suppose $\mathcal{F}$ is a sheaf. Suppose we have an open cover $\{V_i\}$ of $V$. Then $\{\pi^{-1}(V_i)\}$ is an open cover of $\pi^{-1}(V)$. So if $f,g \in \pi_*\mathcal{F}(V) = \mathcal{F}(\pi^{-1}(V))$ agree on all their restrictions to $\pi^{-1}(V_i)$, then by the identity axiom on $\mathcal{F}$, we know $f=g$ in $\pi_*\mathcal{F}(V) = \mathcal{F}(\pi^{-1}(V))$. Likewise, for glueability, if we are given compatible $f_i \in \pi_*\mathcal{F}(V_i) = \mathcal{F}(\pi^{-1}(V_i))$, then they glue to an element in $\pi_*\mathcal{F}(V) = \mathcal{F}(\pi^{-1}(V))$ as desired.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[2.2.I] Let $\pi: X\to Y$ be a continuous map, and $\mathcal{F}$ a sheaf of sets (or rings or modules) on $X$. if $\pi(p) = q$, describe the natural morphism of stalks $(\pi_*\mathcal{F})_q \to \mathcal{F}_p$. 
+    \begin{soln}
+        The first approach is to use the explicit definition of stalks via representatives, the second via colimits. 
+
+        For the first, recall that an element of $(\pi_*\mathcal{F})_q$ is represented by a tuple $(f,V)$ where $f \in \pi_*\mathcal{F}(V) = \mathcal{F}(\pi^{-1}(V))$ and $q \in V$. It follows that $p \in \pi^{-1}(V)$, so we can send $(f, V)$ to $(f, \pi^{-1}(V))$. Let us see this is well-defined. Suppose $(f, V)\sim (g, W)$, i.e. there is some open $U\subset V, W$ such that $\res_{U,V}(f) = \res_{U,W}(g)$. By how we have defined the pushforward sheaf, $\res_{\pi^{-1}(U), \pi^{-1}(V)}(f) = \res_{\pi^{-1}(U),\pi^{-1}(W)}(g)$, so that $(f, \pi^{-1}(V))\sim (g, \pi^{-1}(W))$. 
+
+        If we work with colimits, notice that for any open $V \subset Y$ containing $q$, that elements of $\pi_*\mathcal{F}(V) = \mathcal{F}(\pi^{-1}(V))$ are representatives in the colimit $\colim_{U \ni p}(\mathcal{F}(U)) = \mathcal{F}_p$, so we have maps from each $\pi_*(\mathcal{F}(V))$ to $\mathcal{F}_p$, which are compatible with the restriction maps (since the restriction maps for $\pi_*\mathcal{F}$ are just those of $\mathcal{F}$). Thus by the universal property of colimits this yields a unique map $(\pi_*\mathcal{F})_q = \colim_{V\ni q}(\pi_*\mathcal{F}(V)) \to \colim_{U \ni p}(\mathcal{F}(U)) = \mathcal{F}_p$.
+    \end{soln}
+\end{exer}
+
+\begin{exer}[2.2.J]
+    If $(X, \mco_X)$ is a ringed space, and $\mathcal{F}$ is an $\mco_X$-module, describe how for each $p\in X$, $\mathcal{F}_p$ is an $\mco_{X,p}$-module.
+    \begin{soln}
+        Take $(g, V) \in \mco_{X,p}$ and $(f,U) \in \mathcal{F}_p$. Then $W:= V\cap U$ is open, so we can consider the restrictions $g|_W \in \mco_X(W)$ and $f|_W \in \mathcal{F}(W)$, whereupon the $\mco_X$-module structure gives an element $(g|_W)\cdot(f|_W) \in \mathcal{F}(W)$. Then define $(g, V)\cdot (f, U)$ to be $((g|_W)\cdot(f|_W), W) \in \mathcal{F}_p$.
+
+        To see this is well defined, take other representatives $(g', V')$ and $(f', U')$, with $g'|_{V''} = g|_{V''}$ and $f'|_{U''} = f|_U$. Let $W' = U'\cap W'$ and $W''= U''\cap W''$. Then the restrictions of $(g|_W)\cdot(f|_W)$ and $(g'|_{W'})\cdot(f'|_{W'})$ to $W''$ are the same by the $\mco_X$-module structure. The module axioms follow from the fact that $\mathcal{F}$ is an $\mco_X$-module and working with intersections of open sets.
+    \end{soln}
+\end{exer}
+
+\subsection{Morphisms of presheaves and sheaves}
