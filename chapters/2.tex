@@ -11,7 +11,11 @@ Show that $\mfm_p$ is the only maximal ideal of $\mco_p$.
 \begin{exer}[2.1.B]
     Let $X$ be a differentiable manifold, $p \in X$, $\mco_p$ and $\mfm_p$ as above. Prove that $\mfm_p/\mfm_p^2$ is naturally the cotangent space to $X$ at $p$.
     \begin{proof}
-    
+        One way to define the tangent space of $X$ at $p$ is as the space of derivations at $p$:
+        \[T_pX = \{D: C^\infty(X)\to \R: D(fg) = f(p)D(g) + g(p)D(f)\}\]
+        so that the cotangent space $T^*_pX$ is just the dual $\Hom_{\R}(T_pX, \R)$. Consider the map $\phi: \mfm_p \to T_p^*X$ defined as follows. Given a germ $(f, U) \in \mfm_p$, we can extend $f: U\to\R$ to a function $\tilde{f}: X\to \R$ via bump functions. Then $(D\mapsto D(\tilde{f}))$ yields an element in $T^*pX$, which we define to be $\phi(f,U)$. This is well-defined for the following reason. If $(f,U)$ and $(g,V)$ represent the same germ, then there is some neighborhood of $p$ in which $f-g$ is zero. We can define a bump function $b$ to be one inside this neighborhood where $f-g$ is zero, and zero outside. Then $b(f-g)$ is identically zero on $X$. Then $0 = D(b(f-g)) = b(p)D(f-g) + D(b)(f-g)(p) = D(f-g)$. 
+
+        Clearly if $f, g\in \mfm_p$, then $\phi(fg) = D(\tilde{f}\tilde{g}) = f(p)D(\tilde{g})+g(p)D(\tilde{f}) = 0$, so $\phi$ descends to a map $\mfm_p/\mfm_p^2 \to T^*_pX$. ... tbd
     \end{proof}
 \end{exer}
 
@@ -124,3 +128,60 @@ Show that $\mfm_p$ is the only maximal ideal of $\mco_p$.
 \end{exer}
 
 \subsection{Morphisms of presheaves and sheaves}
+\begin{exer}[2.3.A]
+    If $\phi: \mathcal{F}\to \mathcal{G}$ is a morphism of presheaves on $X$, describe an induced morphism of stalks $\phi_p: \mathcal{F}_p\to \mathcal{G}_p$. (So that taking the stalk at a point $p$ yields a functor from the category of presheaves over $X$ to the category of sets.)
+    \begin{soln}
+        We define $\phi_p(f, U) := (\phi(U)(f), U)$. This is well-defined, for if we have another representative $(g, V)$ such that $f|_W = g|_W$ for $W \subset U,V$, then by naturality of $\phi$, we get that $\phi(U)(f)|_W = \phi(U)(f|_W) = \phi(U)(g|_W) = \phi(U)(g)|_W$. 
+
+        On the other hand, using the colimit definition of a stalk, for each $U \in \catname{Open}(X)$, we have a map $\phi(U): \mathcal{F}(U) \to \mathcal{G}(U) \to \colim_{p \in U}\mathcal{G} U$ which commutes with the restriction maps by definition of $\phi$, so by the universal property of colimits this induces the desired map $\mathcal{F}_p\to\mathcal{G}_p$.
+    \end{soln}
+\end{exer}
+
+\begin{exer}[2.3.B]
+    Suppose $\pi: Y\to X$ is a continuous map of topological spaces. Show that pushforward gives a functor $\catname{Set}_X \to \catname{Set}_Y$.
+    \begin{proof}
+    We have already defined this on the objects, so we need to specify what happens to morphisms. Let $\phi: \mathcal{F}\to\mathcal{G}$ be a morphism of presheaves on $X$. Then we need to define a family of maps $\pi_*\phi: \pi_*\mathcal{F}(V)\to \pi_*\mathcal{G}(V)$ for each open $V \subset Y$. But this is the same thing as defining maps $\mathcal{F}(\pi^{-1}(V)) \to \mathcal{G}(\pi^{-1}(V))$, and we can just define these to be $\pi_*\phi(V):= \phi(\pi^{-1}(V))$. Then by the fact that $\phi$ is a morphism of presheaves, so is $\pi_*\phi$. For functoriality, clearly if $\phi$ is the identity then so is $\pi_*\phi$, and given another morphism $\psi: \mathcal{G}\to\mathcal{H}$ of presheaves over $X$, we get that $(\pi_*\psi \circ \pi_*\phi )(V) = (\psi \circ \pi)(\pi^{-1}(V)) = \psi(\pi^{-1}(V))\circ \phi(\pi^{-1}(V)) = \pi_*\psi(V) \circ \psi_*\phi(V)$.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[2.3.C] Let $\mathcal{F}$ and $\mathcal{G}$ be sheaves of sets on $X$. Show that ``sheaf hom,'' $\shom(\mathcal{F},{G})(U):= \mathrm{Mor}(\mathcal{F}|_U, \mathcal{G}|_U)$, is a sheaf on $X$.
+    \begin{proof}
+        Let $U\subset V$ be an inclusion of open sets in $X$. We need to define the restriction function $\mathrm{Mor}(\mathcal{F}|_V, \mathcal{G}|_V) \to \mathrm{Mor}(\mathcal{F}|_U, \mathcal{G}|_U)$. Given a natural transformation $\alpha \in \mathrm{Mor}(\mathcal{F}|_V, \mathcal{G}|_V)$, we have for any open set $W$ in $U$ (and hence in $V$) a map $\alpha(W): \mathcal{F}(W) \to \mathcal{G}(W)$. So just send $\alpha$ to $\alpha|_U$. Then the identity gets sent to the identity, and composition is respected by restriction. 
+                                     
+        For the identity axiom. Suppose $\{U_i\}$ is an open cover of $U$ and that $f, g \in \shom(\mathcal{F},\mathcal{G})(U)$ agree on all their restrictions $f_i := f|_{U_i}, g_i = g|_{U_i} \in \mathrm{Mor}(\mathcal{F}|_{U_i}, \mathcal{G}|_{U_i})$, that is, for any open set $V_i \subset U_i$,  $f_i(V_i)$ and $g_i(V_i)$ are the same function. Now take an element $x \in \mathcal{F}(U)$. We then get the commutative diagram
+        \[\begin{tikzcd}
+            % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhjYWx7Rn0oVSkiXSxbMCwxLCJcXG1hdGhjYWx7Rn0oVV9pKSJdLFsxLDAsIlxcbWF0aGNhbHtHfShVKSJdLFsxLDEsIlxcbWF0aGNhbHtHfShVX2kpIl0sWzAsMSwiXFxyZXNeXFxtYXRoY2Fse0Z9X3tVLFVfaX0iLDJdLFsxLDMsImZ8X3tVX2l9PWd8X3tVX2l9IiwyXSxbMiwzLCJcXHJlc15cXG1hdGhjYWx7R31fe1UsVV9pfSJdLFswLDIsImYiLDAseyJvZmZzZXQiOi0xfV0sWzAsMiwiZyIsMix7Im9mZnNldCI6MX1dXQ==
+        {\mathcal{F}(U)} & {\mathcal{G}(U)} \\
+        {\mathcal{F}(U_i)} & {\mathcal{G}(U_i)}
+        \arrow["f(U)", shift left, from=1-1, to=1-2]
+        \arrow["g(U)"', shift right, from=1-1, to=1-2]
+        \arrow["{\res^\mathcal{F}_{U,U_i}}"', from=1-1, to=2-1]
+        \arrow["{\res^\mathcal{G}_{U,U_i}}", from=1-2, to=2-2]
+        \arrow["{f(U)|_{U_i}=g(U)|_{U_i}}"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    which implies $\res^{\mathcal{G}}_{U, U_i}(f(U)(x)) = \res^{\mathcal{G}}_{U, U_i}(g(U)(x))$ for all $i$, and because $\mathcal{G}$ is a sheaf this implies $f(U)(x)=g(U)(x)$. 
+
+    For glueability. Let $\{U_i\}$ be an open cover of $U$ and suppose we have natural transformations $\alpha_i \in \shom(\mathcal{F},\mathcal{G})(U_i)$ for each $i$ that agree on intersections. We would like to define an element $\alpha \in \shom(\mathcal{F},\mathcal{G})(U) = \mathrm{Mor}(\mathcal{F}|_U, \mathcal{G}|_U)$ (i.e. a natural family of functions $\mathcal{F}(V)\to\mathcal{G}(V)$ for each open $V\subset U$), that restricts to each $U_i$. So fix an open subset $V\subset U$ and an element $x \in \mathcal{F}(V)$. Then $V_i = V \cap U_i$ yields an open cover of $V$. Consider the elements 
+    \[\alpha_i(V_i)(\res^{\mathcal{F}}_{V, V_i}(x)) \in \mathcal{G}(V_i)\]
+    which are a family of elements in each $\mathcal{G}(V_i)$ that agree on the intersections of the $V_i$, so because $\mathcal{G}$ is a sheaf, this yields an element in $\mathcal{G}(V)$ which we shall define to be $\alpha(V)(x)$. Then the restriction of $\alpha$ to $U_i$ is $\alpha_i$ by construction.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[2.3.D] More sheaf homs.
+    \begin{enumerate}[(a)]
+        \item If $\mathcal{F}$ is a sheaf of sets on $X$, show that $\shom(\uline{\{*\}}, \mathcal{F})\cong \mathcal{F}$, where $\uline{\{*\}}$ is the constant sheaf with values in the one-element set $\{*\}$. 
+        \begin{proof}
+            For any open set $U$, we have $\shom(\uline{\{*\}}, \mathcal{F})(U) = \mathrm{Mor}(\{*\}, \mathcal{F}(U))$, which is in natural bijection $\mathcal{F}(U)$ just by looking at where $*$ goes.
+        \end{proof}
+    
+        \item If $\mathcal{F}$ is a sheaf of abelian groups on $X$, show that $\shom_{\catname{Ab}_X}(\uline{\Z}, \mathcal{F}) \cong \mathcal{F}$ as an isomorphism of sheaves of abelian groups.
+        \begin{proof}
+            Again, for open $U$, we have $\shom_{\catname{Ab}_X}(\uline{\Z},\mathcal{F})(U) = \Hom(\Z, \mathcal{F}(U))$, which is naturally isomorphic to $\mathcal{F}(U)$ by looking at where $1 \in \Z$ is sent.
+        \end{proof}
+
+        \item If $\mathcal{F}$ is an $\mco_X$-module, show that $\shom_{\catname{Mod}_{\mco_X}}(\mco_X, \mathcal{F})\cong \mathcal{F}$ as $\mco_X$-modules.
+        \begin{proof}
+            Same as above, we have $\shom_{\catname{Mod}_{\mco_X}}(\mco_X, \mathcal{F})(U) = \Hom(\mco_X(U), \mathcal{F}(U)) \cong \mathcal{F}(U)$ naturally via the map $f \mapsto f(1)$.
+        \end{proof}
+\end{enumerate}
+\end{exer}
