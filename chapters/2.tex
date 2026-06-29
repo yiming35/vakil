@@ -185,3 +185,146 @@ Show that $\mfm_p$ is the only maximal ideal of $\mco_p$.
         \end{proof}
 \end{enumerate}
 \end{exer}
+
+\begin{exer}[2.3.E]
+If $\phi: \mathcal{F}\to \mathcal{G}$ is a morphism of presheaves (of abelian groups) on $X$, show that $\ker \phi$ given by $(\ker\phi)(U) = \ker(\phi(U))$ is a presheaf.
+\begin{proof}
+    Let $V \subset U$ be open subsets of $X$. Then we have exact sequences assembling into the following commutative diagram: 
+    \[ \begin{tikzcd}
+        % https://q.uiver.app/#q=WzAsOCxbMCwwLCIwIl0sWzEsMCwiXFxrZXIoXFxwaGkoVSkpIl0sWzIsMCwiXFxtYXRoY2Fse0Z9KFUpIl0sWzMsMCwiXFxtYXRoY2Fse0d9KFUpIl0sWzAsMSwiMCJdLFsxLDEsIlxca2VyKFxccGhpKFYpKSJdLFsyLDEsIlxcbWF0aGNhbHtGfShWKSJdLFszLDEsIlxcbWF0aGNhbHtHfShWKSJdLFsyLDYsIlxccmVzXlxcbWF0aGNhbHtGfV97VixVfSJdLFsyLDMsIlxccGhpKFUpIl0sWzMsNywiXFxyZXNee1xcbWF0aGNhbHtHfX1fe1YsVX0iXSxbNiw3LCJcXHBoaShWKSJdLFsxLDJdLFs1LDZdLFswLDFdLFs0LDVdXQ==
+        0 & {\ker(\phi(U))} & {\mathcal{F}(U)} & {\mathcal{G}(U)} \\
+        0 & {\ker(\phi(V))} & {\mathcal{F}(V)} & {\mathcal{G}(V)}
+        \arrow[from=1-1, to=1-2]
+        \arrow[color={rgb,255:red,214;green,92;blue,92}, from=1-2, to=1-3]
+        \arrow[dashed, from=1-2, to=2-2]
+        \arrow["{\phi(U)}", from=1-3, to=1-4]
+        \arrow["{\res^\mathcal{F}_{V,U}}", color={rgb,255:red,214;green,92;blue,92}, from=1-3, to=2-3]
+        \arrow["{\res^{\mathcal{G}}_{V,U}}", from=1-4, to=2-4]
+        \arrow[from=2-1, to=2-2]
+        \arrow[from=2-2, to=2-3]
+        \arrow["{\phi(V)}", from=2-3, to=2-4]
+    \end{tikzcd}\]
+    By exactness and commutativity of the diagram, the composition of the two red arrows, after postcomposing with $\phi(V)$, yields the zero map, so by the universal property it has to factor through $\ker(\phi(V))$ via the dotted map above. Let this dotted arrow be $\res^{\ker\phi}_{V,U}$. 
+
+    Then given another open subset $W \subset V$, we can just stack another row below the diagram above, and it follows by uniqueness that $\res_{W,V}^{\ker\phi}\circ \res_{V,U}^{\ker\phi}$ is equal to $\res_{W,U}^{\ker \phi}$ since the former is a factoring of $\res_{W,V}^{\mathcal{F}} \circ \res_{V,U}^\mathcal{F}$ and the latter is a factoring of $\res_{W,U}^{\mathcal{F}}$, but these two are the same since $\mathcal{F}$ is a presheaf. And clearly $\res^{\ker\phi}_{U,U}$ is the identity.
+\end{proof} 
+\end{exer}
+
+\begin{exer}[2.3.F] Let $\phi: \mathcal{F}\to \mathcal{G}$ be as above. Show that $\coker \phi$ satisfies the universal property of cokernels in the category of presheaves.
+    \begin{proof}
+        Let $\psi: \mathcal{G}\to \mathcal{H}$ be a morphism of presheaves such that $\psi\circ \phi = 0$, i.e. $\psi(U)\circ \phi(U) = 0$ for all opens $U \subset X$. Let $q(U): \mathcal{G}(U) \to (\coker\phi)(U)$ be the canonical cokernel maps. By the universal property of cokernels in the category of abelian groups, there is a unique map $j(U): \coker(\phi(U)) = (\coker\phi)(U)\to \mathcal{H}(U)$ such that $\psi(U) = j(U)\circ q(U)$. It remains to show that the collection of $j(U)$ for each $U$ assemble into a morphism of presheaves $\coker\phi \to \mathcal{H}$. So let $V\subset U$ be an inclusion. We then get the diagram below:
+        \[ \begin{tikzcd}[sep=2.25em]
+            % https://q.uiver.app/#q=WzAsOCxbMSwxLCJcXG1hdGhjYWx7R30oVSkiXSxbMiwxLCJcXG1hdGhjYWx7SH0oVSkiXSxbMiwwLCJcXGNva2VyIChcXHBoaShVKSkiXSxbMiwyLCJcXG1hdGhjYWx7R30oVikiXSxbMywyLCJcXG1hdGhjYWx7SH0oVikiXSxbMywxLCJcXGNva2VyKFxccGhpKFYpKSJdLFswLDEsIlxcbWF0aGNhbHtGfShVKSJdLFsxLDIsIlxcbWF0aGNhbHtGfShWKSJdLFswLDFdLFswLDIsInEoVSkiXSxbMiwxLCJqKFUpIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzAsMywiXFxyZXNee1xcbWF0aGNhbHtHfX0iXSxbMSw0LCJcXHJlc15cXG1hdGhjYWx7SH0iXSxbMyw0XSxbMyw1LCJxKFYpIiwyXSxbNSw0LCJqKFYpIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzIsNSwiXFxyZXNee1xcY29rZXJ9IiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzYsMF0sWzYsNywiXFxyZXNee1xcbWF0aGNhbHtGfX0iXSxbNywzXV0=
+            && {\coker (\phi(U))} & \\
+            {\mathcal{F}(U)} & {\mathcal{G}(U)} & {\mathcal{H}(U)} & {\coker(\phi(V))} \\
+            & {\mathcal{F}(V)} & {\mathcal{G}(V)} & {\mathcal{H}(V)}
+            \arrow["{j(U)}", dashed, from=1-3, to=2-3]
+            \arrow["{\res^{\coker}}", dashed, from=1-3, to=2-4]
+            \arrow[from=2-1, to=2-2]
+            \arrow["{\res^{\mathcal{F}}}", from=2-1, to=3-2]
+            \arrow["{q(U)}", from=2-2, to=1-3]
+            \arrow[from=2-2, to=2-3]
+            \arrow["{\res^{\mathcal{G}}}", from=2-2, to=3-3]
+            \arrow["{\res^\mathcal{H}}", from=2-3, to=3-4]
+            \arrow["{j(V)}", dashed, from=2-4, to=3-4]
+            \arrow[from=3-2, to=3-3]
+            \arrow["{q(V)}"', from=3-3, to=2-4]
+            \arrow[from=3-3, to=3-4]
+        \end{tikzcd}\]
+        On the right ``triangular prism'' looking thing, the bottom square (consisting of $\mathcal{G}$, $\mathcal{H}$) commutes, and the diagonal square (consisting of $\mathcal{G}$, $\coker\phi$) commutes. We then get the following sequence of equalities:
+        \begin{align*}
+        \res^{\mathcal{H}}\circ j(U)\circ q(U) &=\res^{\mathcal{H}}\circ \psi(U) \\
+        &= \psi(V) \circ \res^{\mathcal{G}} \\
+        &= j(V) \circ q(V)\circ \res^{\mathcal{G}} \\
+        &= j(V) \circ \res^{\coker}\circ q(U)
+        \end{align*}
+        and because $q(U)$ is an epimorphism we conclude the the back square commutes, i.e. $j$ is a morphism of presheaves which satisfies $\psi(U) = j(U)\circ q(U)$ for all $U$. Uniqueness follows from uniqueness in the category of abelian groups for each $U$.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[2.3.G] Show that for a topological space $X$ and open $U\subset X$, $\mathcal{F}\mapsto \mathcal{F}(U)$ is a functor from $\Ab^{\mathrm{pre}}_X$ to $\Ab$. Then show that this functor is exact.
+    \begin{proof}
+        For a morphism of sheaves $\phi: \mathcal{F}\to \mathcal{G}$ we automatically get a map $\phi(U): \mathcal{F}(U)\to \mathcal{G}(U)$. For another morphism $\psi: \mathcal{G}\to\mathcal{H}$, we get $(\psi\circ \phi)(U) = \psi(U)\circ \phi(U)$ by definition, and the identity presheaf morphism $\id: \mathcal{F}\to \mathcal{F}$ is also the identity on each open set. So this is a functor.
+
+        By the way we have defined the kernel and cokernel of a presheaf, we know that $(\ker \phi)(U) = \ker(\phi(U))$ and likewise for the cokernel. So this functor preserves (co)kernels and is therefore exact.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[2.3.H] Show that a sequence of presheaves $0 \to \mathcal{F}_1\xrightarrow{\phi_1} \cdots \xrightarrow{\phi_{n-1}} \mathcal{F}_n\to 0$ is exact iff $0 \to \mathcal{F}_1(U)\to \cdots \to \mathcal{F}_n(U)\to 0$ is exact for all $U$.
+    \begin{proof}
+        The forward direction follows from the previous exercise. Conversely, we have that 
+        \[(\ker \phi_i)(U) = \ker(\phi_i(U)) = \im(\phi_{i-1}(U)) = (\im \phi_{i-1})(U)\]
+        for all $U$ and $i$, so $\ker\phi_i = \im \phi_{i-1}$ for all $i$. (Here $\phi_0$ and $\phi_n$ are the zero maps.)
+    \end{proof}
+\end{exer}
+
+\begin{exer}[2.3.I]
+    Let $\phi: \mathcal{F}\to \mathcal{G}$ be a morphism of sheaves on $X$. Show that the presheaf kernel is also a sheaf, and that it satifes the universal property.
+    \begin{proof}
+        We already know it is a presheaf. For the identity axiom, let $U$ be an open set and $\{U_i\}$ an open cover. Suppose we have two elements $f, g \in \ker_\pre\phi$ whose restrictions $f|_{U_i}$ and $g|_{U_i}$ agree for all $i$. Let $\iota: \ker_\pre\phi \to \mathcal{F}$ denote the canonical monomorphism. By this being a morphism of presheaves, we have 
+        \[\iota(U)(f)|_{U_i} = \iota(U_i)(f|_{U_i}) = \iota(U_i)(g|_{U_i})= \iota(U)(g)|_{U_i}\]
+        for all $i$, and because $\mathcal{G}$ is a sheaf we get by the identity axiom that $\iota(U)(f) = \iota(U)(g)$. But $\iota(U)$ is injective, so $f=g$.
+        
+        For glueability, again let $U$ be open and $\{U_i\}$ an open cover. Suppose we have $f_i \in \ker_\pre\phi(U_i)$ agreeing on all intersections. Then 
+        \[\iota(U_i)(f_i)|_{U_i\cap U_j} = \iota(U_i\cap U_j)(f_i|_{U_i\cap U_j}) =  \iota(U_i\cap U_j)(f_j|_{U_i\cap U_j}) = \iota(U_j)(f_j)|_{U_i\cap U_j}\]
+        so the $\iota(U_i)(f_i)$ are also a compatible family of sections in $\mathcal{F}$, so by glueability there is some $\tilde{f} \in \mathcal{F}(U)$ such that $\tilde{f}|_{U_i} = \iota(U_i)(f_i)$ for all $i$. Notice that for each $U_i$, 
+        \[\phi(U)(\tilde{f})|_{U_i} = \phi(U_i)(\tilde{f}|_{U_i}) = \phi(U_i)(f_i) = 0\]
+        since $f_i \in \ker_\pre\phi(U_i)$. Therefore $\phi(U)(\tilde{f})|_{U_i}$ is zero for all $i$, so $\phi(U)(\tilde{f}) = 0$ and there exists some $f \in \ker_\pre\phi(U)$ with $\iota(U)(f) = \tilde{f}$, from which it follows that 
+        \[\iota(U_i)(f|_{U_i}) = \iota(U)(f)|_{U_i} = \tilde{f}|_{U_i} = \iota(U_i)(f_i)\]
+        and because $\iota(U_i)$ is a mono we get $f|_{U_i} = f_i$ for all $i$.
+
+        Suppose $\psi: \mathcal{E}\to \mathcal{F}$ is a morphism of sheaves with $\psi\circ \phi = 0$. Then $\psi(U)$ factors through $\ker_\pre\phi(U) = \ker(\phi(U))$ for each $U$, yielding a morphism of presheaves by 2.3.E. But a morphism of sheaves is just a morphism of underlying presheaves. This yields the universal property.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[2.3.J]
+    Let $X$ be $\C$ with the standard topology, $\mco_X$ be the sheaf of holomorphic functions, and let $\mathcal{F}$ be the presheaf of functions admitting a holomorphic logarithm. Describe an exact sequence of presheaves on $X$ 
+    \[0\to \uline{\Z}\to \mco_X \to \mathcal{F}\to 0\]
+    but show that $\mathcal{F}$ is not a sheaf. (Hence the presheaf cokernel is not always the sheaf cokernel.)
+    \begin{proof}
+    The map $\phi: \uline{\Z}\to \mco_X$ is given by inclusion: each map $\Z = \uline{\Z}(U) \to \mco_X(U)$ sends $n \in \Z$ to the constant function at $n$. This is clearly injective. The map $\psi: \mco_X \to \mathcal{F}$ sends $f \in \mco_X(U)$ to $\exp(2\pi i f) \in \mathcal{F}(U)$. This is clearly surjective, since if $h$ admits a holomorphic logarithm then $\psi(\frac{\log h}{2\pi i}) = \exp(\log h) = h$. For exactness, we clearly have in one direction $\psi(U)\circ\phi(U)(n) = \exp(2\pi i n) = 1$. In the other, suppose $\exp(2\pi i f) = 1$. Then $f(z)$ is an integer for all $z \in U$, so $f$, being holomorphic, must be locally constant on $U$, i.e. $f \in \uline{\Z}(U)$. 
+    
+    But $\mathcal{F}$ is not a sheaf. Cover $\C^\times$ with two open sets $U_1, U_2$ and choose a branches of $\log z$ on each. Then $h(z) = z$ restricted to each $U_i$ admits a holomorphic logarithm, but the only possible glueing, which is again the identity function on $\C^\times$, does not.
+    \end{proof}
+\end{exer}
+
+\subsection{Properties determined at the level of stalks, and sheafification}
+\begin{exer}[2.4.A] Prove that a section of a sheaf of sets is determined by its germs, i.e. the natural map $\mathcal{F}(U)\to \prod_{p \in U}\mathcal{F}_p$  is injective.
+\begin{proof}
+The natural map sends a section $g \in \mathcal{F}(U)$ to the tuple $(f_p)_{p \in U}$. Suppose $(f_p)_{p \in U} = (g_p)_{p \in U}$ for all $p$. Then for each $p$, there exists some open $V_p$ with $f|_{V_p} = g|_{V_p}$. The collection of $V_p$ form an open cover of $U$, so by the identity axiom we know that $f=g$.
+\end{proof}
+\end{exer}
+
+\begin{exer}[2.4.B]
+    Prove that any choice of compatible germs for a sheaf of sets $\mathcal{F}$ over $U$ is the image of a section of $\mathcal{F}$ over $U$ under the map in the previous exercise.
+    \begin{proof}
+        Let $(s_p)_{p \in U}$ consist of compatible germs, i.e. for each $p \in U$ there is an open set $U_p \ni p$ and some $\tilde{s}_p \in \mathcal{F}(U_p)$ whose germ at $q \in U_p$ is $s_q$. We know that the $\{U_p\}$ are a open cover of $U$. Take $p, p' \in U$, and consider $\tilde{s}_p$ and $\tilde{s}_{p'}$. Since we have compatible germs, we know for each $q \in U_p \cap U_{p'}$ that $(\tilde{s}_p)_q = (\tilde{s}_{p'})_q$, i.e. there is an open set $V_q \subset U_p\cap U_{p'}$ containing $q$ where the restrictions $\tilde{s}_p$ and $\tilde{s}_{p'}$ agree. Since this holds for each $q$, and the $V_q$ form an open cover of $U_p \cap U_{p'}$, we get by the identity axiom that $\tilde{s}_p$ and $\tilde{s}_{p'}$ agree on the intersections. Therefore, by the glueability axiom there is a section $s \in \mathcal{F}(U)$ that restricts to $\tilde{s}_p$ on each $U_p$. Moreover, the germ of $s$ at $p$ is the germ of $\tilde{s}_p$ at $p$, which is $s_p$, completing the proof.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[2.4.C] If $\phi_1$ and $\phi_2$ are morphisms from a presheaf of sets $\mathcal{F}$ to a sheaf of sets $\mathcal{G}$ that induce the same map on each stalk, show that $\phi_1 = \phi_2$. 
+    \begin{proof}
+    Following the hint, we consider the following diagram
+    \[\begin{tikzcd}
+        % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhjYWx7Rn0oVSkiXSxbMSwwLCJcXG1hdGhjYWx7R30oVSkiXSxbMCwxLCJcXHByb2Rfe3BcXGluIFV9XFxtYXRoY2Fse0Z9X3AiXSxbMSwxLCJcXHByb2Rfe3BcXGluIFV9IFxcbWF0aGNhbHtHfV9wIl0sWzEsMywiIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoiaG9vayIsInNpZGUiOiJ0b3AifX19XSxbMCwxLCJcXHBoaV8yKFUpIiwyLHsib2Zmc2V0IjoxfV0sWzIsM10sWzAsMl0sWzAsMSwiXFxwaGlfMShVKSIsMCx7Im9mZnNldCI6LTF9XV0=
+        {\mathcal{F}(U)} & {\mathcal{G}(U)} \\
+        {\prod_{p\in U}\mathcal{F}_p} & {\prod_{p\in U} \mathcal{G}_p}
+        \arrow["{\phi_2(U)}"', shift right, from=1-1, to=1-2]
+        \arrow["{\phi_1(U)}", shift left, from=1-1, to=1-2]
+        \arrow[from=1-1, to=2-1]
+        \arrow[hook, from=1-2, to=2-2]
+        \arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    But the maps induced by $\phi_1$ and $\phi_2$ agree on the stalks, so there is just one bottom arrow making the square commute for either $\phi_1(U)$ or $\phi_2(U)$, i.e. for each $f \in \mathcal{F}(U)$ and $p \in U$, we have $(\phi_1(U)(f))_p = (\phi_2(U)(f))_p$. By injectivity (Exercise 2.4.B), we get that $\phi_1(U)(f) = \phi_2(U)(f)$ for all $U$ and $f$, so $\phi_1 = \phi_2$.
+    \end{proof}
+\end{exer}
+
+\begin{exer}[2.4.D] Show that a morphism $\phi: \mathcal{F} \to \mathcal{G}$ of sheaves of sets is an isomorphism if and only if it induces an isomorphism of all stalks.
+    \begin{proof}
+        For the forward direction, recall the definition of the induced map of stalks (Exercise 2.3.A). It is obvious that if $\phi$ is an isomorphism then each map on stalks $\phi_p$ also has an inverse given by the inverse of $\phi$. 
+
+        For the backward direction, let $f, g \in \mathcal{F}(U)$ and suppose $\phi(U)(f) = \phi(U)(g)$. It follows that for each $p \in U$,
+        \[\phi_p(f_p) = (\phi(U)(f))_p  = (\phi(U)(g))_p = \phi_p(g_p).\]
+        Since the stalk maps are all isomorphisms, we have equality of germs $f_p = g_p$ for all $p$, so by Exercise 2.4.A we know that $f=g$. For surjectivity, choose $g \in \mathcal{G}(U)$. This yields a compatible family of germs in $\prod_{p \in U} \mathcal{G}_p$, and by the isomorphism also a compatible family $(f_p)_{p \in U}\mathcal{F}_p$ with $\phi_p(f_p) = g_p$ for all $p$. By Exercise 2.4.B, the family $(f_p)_{p \in U}$ comes from a section $f \in \mathcal{F}(U)$. Now using the same square as the previous exercise, we find that $g_p = \phi_p(f_p) = (\phi(U)(f))_p$, so by injectivity on the level of germs $\phi(U)(f) = g$, showing surjectivity.
+    \end{proof}
+\end{exer}
